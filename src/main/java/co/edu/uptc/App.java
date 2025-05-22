@@ -1,5 +1,8 @@
 package co.edu.uptc;
 
+import co.edu.uptc.model.Word;
+import co.edu.uptc.model.WordHandler;
+
 /**
  * Hello world!
  *
@@ -8,6 +11,6 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        WordHandler lol = new WordHandler();
     }
 }
