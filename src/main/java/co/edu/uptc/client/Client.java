@@ -22,12 +22,16 @@ public class Client {
             salida.println(mensaje);
             String respuesta;
             while ((respuesta = entrada.readLine()) != null) {
-                System.out.println("Respuesta del servidor: " + respuesta);
-                System.out.print("Mensaje para el servidor:");
-                String nuevoMensaje = scanner.nextLine();
-                salida.println(nuevoMensaje);
+                if (!respuesta.equals("Adios, cliente")) {   
+                    System.out.println("Respuesta del servidor: " + respuesta);
+                    System.out.print("Mensaje para el servidor:");
+                    String nuevoMensaje = scanner.nextLine();
+                    salida.println(nuevoMensaje);
+                }else{
+                    System.out.println("Fin de la conversacion");
+                    return;
+                }
             }
-            System.out.println("adios");
             scanner.close();
         } catch (UnknownHostException e) {
             System.err.println("Host desconocido: " + SERVIDOR);

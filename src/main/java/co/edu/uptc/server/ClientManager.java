@@ -39,7 +39,7 @@ public class ClientManager extends Thread {
                     System.out.println("Client has desconected");
                     return;
                 }else{
-                    System.out.println("Mensaje del cliente #" + nClient + " " + message + 
+                    System.out.println("Mensaje del cliente #" + nClient + " " + message + "\n" + 
                     ">>>Respuesta para el cliente #" + nClient + ": ");
                     output.println(sc.nextLine());
                 }

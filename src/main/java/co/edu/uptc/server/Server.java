@@ -40,7 +40,7 @@ public class Server {
     public static String showActiveClientsList() {
         String clients = "[ ";
         for (ClientManager cliente : connectedClients) {
-            clients+=("(" +cliente.nClient + ") ");
+            clients+=(cliente.isAlive())?("(" +cliente.nClient + ") "): "";
         }
         clients+=("]");
         return clients;
