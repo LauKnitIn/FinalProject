@@ -1,5 +1,6 @@
 package co.edu.uptc.view;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,9 +13,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
+import co.edu.uptc.view.constants.Locations;
 
 public class PanelStart extends JPanel {
 
@@ -23,7 +27,12 @@ public class PanelStart extends JPanel {
     public PanelStart() {
         setSize(1300, 800);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMenus.png").getImage();
+        try {
+            backgroundImage = ImageIO.read(Locations.menuBg);
+        } catch (IOException e) {
+            e.getCause();
+            System.out.println("Esto es nulo papa");
+        }
         setLayout(null);
         initComponents();
     }
@@ -58,7 +67,7 @@ public class PanelStart extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon informacionIcon = new ImageIcon("frontend-proyecto\\resources\\informacion.png");
+        ImageIcon informacionIcon = new ImageIcon(Locations.infoIcon);
     
         addButton("Un jugador", 320, 350, e -> {
             setGameMode(false); 
