@@ -1,4 +1,4 @@
-package view;
+package co.edu.uptc.view;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;

@@ -1,4 +1,4 @@
-package view.constants;
+package co.edu.uptc.view.constants;
 
 import java.awt.Font;
 

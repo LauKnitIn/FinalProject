@@ -1,4 +1,4 @@
-package view;
+package co.edu.uptc.view;
 
 import javax.swing.JTextField;
 import java.awt.Graphics;

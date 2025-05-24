@@ -1,4 +1,4 @@
-package view;
+package co.edu.uptc.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
