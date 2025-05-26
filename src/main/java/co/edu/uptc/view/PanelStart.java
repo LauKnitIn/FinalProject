@@ -30,7 +30,7 @@ public class PanelStart extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }
@@ -55,7 +55,7 @@ public class PanelStart extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon informacionIcon = new ImageIcon("frontend-proyecto\\resources\\informacion.png");
+        ImageIcon informacionIcon = new ImageIcon("resources\\informacion.png");
 
         btnUnJugador = addButton("Un jugador", 0, 350, e -> {
             setGameMode(false);
