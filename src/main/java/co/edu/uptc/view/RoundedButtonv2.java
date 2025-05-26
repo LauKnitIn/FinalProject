@@ -1,4 +1,4 @@
-package view;
+package co.edu.uptc.view;
 
 import javax.swing.JButton;
 import java.awt.Graphics;
@@ -20,7 +20,6 @@ public class RoundedButtonv2 extends JButton {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Dibujar un círculo
         g2.setColor(getBackground());
         g2.fill(new Ellipse2D.Float(0, 0, getWidth(), getHeight()));
 
@@ -33,7 +32,6 @@ public class RoundedButtonv2 extends JButton {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Dibujar el borde del círculo
         g2.setColor(getForeground());
         g2.draw(new Ellipse2D.Float(0, 0, getWidth() - 1, getHeight() - 1));
 

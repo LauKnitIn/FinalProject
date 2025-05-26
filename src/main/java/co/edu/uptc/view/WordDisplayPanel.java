@@ -1,4 +1,4 @@
-package view;
+package co.edu.uptc.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import view.constants.FontPalette;
+import co.edu.uptc.view.constants.FontPalette;
 
 public class WordDisplayPanel extends JPanel {
     private String wordToGuess = "AMABLE"; 

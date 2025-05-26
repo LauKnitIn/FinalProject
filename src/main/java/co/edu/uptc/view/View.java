@@ -1,9 +1,9 @@
-package view;
+package co.edu.uptc.view;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
-import presenter.Presenter;
+import co.edu.uptc.presenter.Presenter;
 
 public class View extends JFrame {
 
@@ -17,7 +17,7 @@ public class View extends JFrame {
     private PanelMultiplayer panelMultiplayer;
 
     private boolean isMultiplayer = false;
-
+    
     private Presenter presenter;
 
     public View(Presenter presenter) {

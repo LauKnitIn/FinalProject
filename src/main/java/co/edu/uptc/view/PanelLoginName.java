@@ -1,4 +1,4 @@
-package view;
+package co.edu.uptc.view;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -12,8 +12,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 
-import view.constants.ColorPalette;
-import view.constants.FontPalette;
+import co.edu.uptc.view.constants.ColorPalette;
+import co.edu.uptc.view.constants.FontPalette;
 
 public class PanelLoginName extends JPanel {
 

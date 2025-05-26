@@ -1,6 +1,6 @@
-package presenter;
+package co.edu.uptc.presenter;
 
-import view.View;
+import co.edu.uptc.view.View;
 
 public class Runner {
     public static void main(String[] args) {
