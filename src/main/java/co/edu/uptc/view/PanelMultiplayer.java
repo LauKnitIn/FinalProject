@@ -29,7 +29,7 @@ public class PanelMultiplayer extends JPanel {
     public PanelMultiplayer() {
         setSize(1300, 800);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMadera2.jpg").getImage();
+        backgroundImage = new ImageIcon("resources\\FondoMadera2.jpg").getImage();
         setLayout(null);
         initComponents();
     }

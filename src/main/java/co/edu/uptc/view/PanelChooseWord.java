@@ -28,7 +28,7 @@ public class PanelChooseWord extends JPanel {
     public PanelChooseWord() {
         setSize(1300, 800);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }

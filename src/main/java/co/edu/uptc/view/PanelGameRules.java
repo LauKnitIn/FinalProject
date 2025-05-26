@@ -23,7 +23,7 @@ public class PanelGameRules extends JPanel {
     public PanelGameRules() {
         setSize(1300, 800);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }
@@ -58,8 +58,8 @@ public class PanelGameRules extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon xIcon = new ImageIcon("frontend-proyecto\\resources\\image x.png");
-        ImageIcon arrowIcon = new ImageIcon("frontend-proyecto\\resources\\image avanzar.png");
+        ImageIcon xIcon = new ImageIcon("resources\\image x.png");
+        ImageIcon arrowIcon = new ImageIcon("resources\\image avanzar.png");
 
         addButton(xIcon, 0, 30, e -> showPanelStart());
         addButton(arrowIcon, 900, 635, e -> showPanelGameRulesP2());

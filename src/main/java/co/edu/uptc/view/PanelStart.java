@@ -23,7 +23,7 @@ public class PanelStart extends JPanel {
     public PanelStart() {
         setSize(1300, 800);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }
@@ -50,7 +50,7 @@ public class PanelStart extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon informacionIcon = new ImageIcon("frontend-proyecto\\resources\\informacion.png");
+        ImageIcon informacionIcon = new ImageIcon("resources\\informacion.png");
     
         addButton("Un jugador", 320, 350, e -> {
             setGameMode(false); 
