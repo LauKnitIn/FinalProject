@@ -1,6 +1,6 @@
 package co.edu.uptc.presenter;
 
-import view.View;
+import co.edu.uptcview.View;
 
 public class Presenter {
     private View view;
