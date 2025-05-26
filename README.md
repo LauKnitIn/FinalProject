@@ -1,10 +1,10 @@
-## Getting Started
+# Rama de desarrollo del Front End (Juego del Ahorcado)
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+En esta rama se evidenciarán los cambios con respecto a la interfaz gráfica o interfaz de usuario implementada para el desarrollo del Juego del Ahorcado en Java, por medio de Commits en la plataforma web de GutHub.
 
-## Folder Structure
+## Estructura de la carpeta
 
-The workspace contains two folders by default, where:
+Se contienen carpetas y clases por defecto
 
 - `src`: the folder to maintain sources
 - `lib`: the folder to maintain dependencies
@@ -13,6 +13,7 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 
 > If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Rama desarrollada por:
+```
+- Juan Luis Herrera Suárez
+```
