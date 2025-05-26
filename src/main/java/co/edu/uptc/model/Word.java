@@ -16,12 +16,13 @@ public class Word {
         this.value = value;
         this.wordLetters = new ArrayList<>();
         this.guessedLetters = new HashSet<>();
+        this.wrongLetters = new HashSet<>();
         fillWordLetters();
     }
 
     private void fillWordLetters(){
          for (char letter : value.toCharArray()) {
-            this.wordLetters.add(String.valueOf(letter));
+            this.wordLetters.add(String.valueOf(letter).toUpperCase());
         }
     }
 
@@ -29,10 +30,10 @@ public class Word {
         String letterStrng = String.valueOf(letter).toUpperCase();
 
         if (wordLetters.contains(letterStrng)) {
-            guessedLetters.add(letterStrng);
+           this.guessedLetters.add(letterStrng);
             return true;
         } else {
-            wrongLetters.add(letterStrng);
+            this.wrongLetters.add(letterStrng);
             return false;
         }
     }
@@ -43,7 +44,7 @@ public class Word {
     }
 
     public boolean isComplete(){
-        Set<String> uniqueLetters = new HashSet<>(wordLetters);
+        Set<String> uniqueLetters = new HashSet<>(this.wordLetters);
         boolean isWordGuessed = false;
         if (guessedLetters.containsAll(uniqueLetters)) {
             isWordGuessed = true;

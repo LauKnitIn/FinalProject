@@ -25,11 +25,11 @@ public class Player {
         return wordToGuess.isComplete();
     }
     public boolean hasLost(){
-        boolean hasAttempts = true;
         if (remainingAttempts <= 0) {
-            hasAttempts = false;
+            return true;
+        }else{
+            return false;
         }
-        return hasAttempts;
     }
 
     public void chooseWord(Word desiredWord, Player oppPlayer){
