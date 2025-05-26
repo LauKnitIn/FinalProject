@@ -50,7 +50,7 @@ public class PanelOnePlayer extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon exitIcon = new ImageIcon("resources\\Salir.png");
+        ImageIcon exitIcon = new ImageIcon("resources\\cerrar-sesion.png");
         ImageIcon homeIcon = new ImageIcon("resources\\home.png");
 
         addButton(exitIcon, 0, 0, e -> System.exit(0));
