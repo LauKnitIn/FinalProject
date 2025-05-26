@@ -1,53 +1,83 @@
 package co.edu.uptc.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Word {
     private String value;
     private Difficulty difficulty;
-    private ArrayList<String> wordLetters;
-    private ArrayList<String> guessedLetters;
+    private List<String> wordLetters;
+    private Set<String> wrongLetters;
+    private Set<String> guessedLetters;
 
-    public Word(){
+    public Word(String value){
+        this.value = value;
         this.wordLetters = new ArrayList<>();
-        this.guessedLetters = new ArrayList<>();
+        this.guessedLetters = new HashSet<>();
+        this.wrongLetters = new HashSet<>();
         fillWordLetters();
     }
 
     private void fillWordLetters(){
-        for (int i = 0; i < value.length(); i++) {
-            String letter = value.substring(i, i+1);
-            this.wordLetters.add(letter);
+         for (char letter : value.toCharArray()) {
+            this.wordLetters.add(String.valueOf(letter).toUpperCase());
         }
     }
 
     public boolean hasLetter(char letter){
-        boolean hasLetter = false;
-        String toCompare = "" + letter;
-        if (wordLetters.contains(toCompare)) {
-            hasLetter = true;
-            addGuessedLetter(letter);
+        String letterStrng = String.valueOf(letter).toUpperCase();
 
+        if (wordLetters.contains(letterStrng)) {
+           this.guessedLetters.add(letterStrng);
+            return true;
+        } else {
+            this.wrongLetters.add(letterStrng);
+            return false;
         }
-        return hasLetter;
     }
 
-    private void addGuessedLetter(char letter){
-        String letterToAdd = "" + letter;
-        this.guessedLetters.add(letterToAdd);
-    }
-
-    public ArrayList<String> guessedLetters(char letter){
+    public Set<String> guessedLetters(char letter){
         //Añadir excepcion en caso de no tener ninguna
         return this.guessedLetters;
     }
 
     public boolean isComplete(){
+        Set<String> uniqueLetters = new HashSet<>(this.wordLetters);
         boolean isWordGuessed = false;
-        if (wordLetters.containsAll(guessedLetters)) {
+        if (guessedLetters.containsAll(uniqueLetters)) {
             isWordGuessed = true;
         }
         return isWordGuessed;
+    }
+
+     public Set<String> getWrongLetters() {
+        return this.wrongLetters;
+    }
+
+    public String getProgress() {
+        StringBuilder auxSb = new StringBuilder();
+        for (String letter : wordLetters) {
+            if (guessedLetters.contains(letter)) {
+                auxSb.append(letter).append(" ");
+            } else {
+                auxSb.append("_ ");
+            }
+        }
+        return auxSb.toString().trim();
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
     
 }
