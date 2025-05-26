@@ -17,5 +17,5 @@ public class FontPalette {
     public static Font JLABEL_NAME_FONT = new Font("Courier Prime", Font.BOLD, 20);   
     public static Font WORD_DISPLAY_FONT = new Font("Courier Prime", Font.BOLD, 24);    
     public static Font TEXTAREA_FONT = new Font("Courier Prime", Font.PLAIN, 18);    
-    public static Font TEXTFIELD_FONT = new Font("Courier Prime", Font.PLAIN, 30);    
+    public static Font TEXTFIELD_FONT = new Font("Courier Prime", Font.PLAIN, 45);    
 }

@@ -128,11 +128,14 @@ public class PanelOnePlayer extends JPanel {
                 int baseY = 60;
 
                 // Poste
-                g2d.drawLine(baseX, baseY + 300, baseX + 60, baseY + 300); // base del suelo
-                g2d.drawLine(baseX + 30, baseY + 300, baseX + 30, baseY); // poste vertical
-                g2d.drawLine(baseX + 30, baseY, baseX + 150, baseY); // barra superior
-                g2d.drawLine(baseX + 150, baseY, baseX + 150, baseY + 50); // cuerda
-
+                // base del suelo
+                g2d.drawLine(baseX, baseY + 300, baseX + 60, baseY + 300);
+                // poste vertical
+                g2d.drawLine(baseX + 30, baseY + 300, baseX + 30, baseY);
+                // barra superior
+                g2d.drawLine(baseX + 30, baseY, baseX + 150, baseY);
+                // cuerda
+                g2d.drawLine(baseX + 150, baseY, baseX + 150, baseY + 50);
                 // Cabeza
                 g2d.drawOval(baseX + 135, baseY + 50, 30, 30);
                 // Cuerpo

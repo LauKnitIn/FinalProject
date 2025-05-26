@@ -6,8 +6,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
 import javax.swing.ImageIcon;
-import java.awt.Color;  
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
@@ -57,36 +59,56 @@ public class PanelLoginName extends JPanel {
     }
 
     private void addOptions() {
-        addTextField("  _______________________________  ", 330, 350, e -> {});
+        addTextField("___________________", 330, 350, e -> {
+        });
 
         addButton("Continuar", 480, 500, e -> showPanelDifficulty());
     }
 
     private void addButton(String text, int x, int y, ActionListener actionListener) {
-        RoundedButton button = new RoundedButton(text, 20); 
+        RoundedButton button = new RoundedButton(text, 20);
         button.setBounds(x, y, 370, 70);
-        button.setBackground(ColorPalette.COLOR_BUTTON); 
+        button.setBackground(ColorPalette.COLOR_BUTTON);
         button.setForeground(Color.WHITE);
-        button.setFont(FontPalette.BUTTON_2_FONT); 
+        button.setFont(FontPalette.BUTTON_2_FONT);
         button.addActionListener(actionListener);
         add(button);
     }
 
-        private void addTextField(String text, int x, int y, ActionListener actionListener) {
-        RoundedTextField textField = new RoundedTextField(1, 30, 30, text); 
-        textField.setBounds(x, y, 650, 70);
+    private void addTextField(String text, int x, int y, ActionListener actionListener) {
+        RoundedTextField textField = new RoundedTextField(1, 30, 30, text);
+        textField.setBounds(x, y, 650, 90);
         textField.setFont(FontPalette.TEXTFIELD_FONT);
-        textField.setBackground(ColorPalette.COLOR_TEXTFIELD); 
-        textField.setForeground(Color.WHITE); 
+        textField.setBackground(ColorPalette.COLOR_TEXTFIELD);
+        textField.setForeground(Color.WHITE);
+        textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        ((AbstractDocument) textField.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr)
+                    throws javax.swing.text.BadLocationException {
+                if (fb.getDocument().getLength() + string.length() <= 22) {
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
+
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text,
+                    javax.swing.text.AttributeSet attrs) throws javax.swing.text.BadLocationException {
+                if (fb.getDocument().getLength() - length + (text != null ? text.length() : 0) <= 22) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+
         add(textField);
     }
 
     public void showPanelDifficulty() {
-        JFrame topFrame =(JFrame) SwingUtilities.getWindowAncestor(PanelLoginName.this);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelLoginName.this);
         if (topFrame instanceof View) {
-         ((View) topFrame).showPanelDifficulty();
-       }
-     }
- 
-    
+            ((View) topFrame).showPanelDifficulty();
+        }
+    }
+
 }
