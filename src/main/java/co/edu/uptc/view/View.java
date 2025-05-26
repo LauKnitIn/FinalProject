@@ -2,6 +2,8 @@ package co.edu.uptc.view;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import co.edu.uptc.presenter.Presenter;
 
@@ -17,13 +19,15 @@ public class View extends JFrame {
     private PanelMultiplayer panelMultiplayer;
 
     private boolean isMultiplayer = false;
-    
+
     private Presenter presenter;
 
     public View(Presenter presenter) {
         this.presenter = presenter;
         setTitle("El ahorcado");
-        setSize(1300, 800);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize.width, screenSize.height);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
@@ -105,7 +109,7 @@ public class View extends JFrame {
         panelDifficulty.setVisible(false);
         panelGameRules.setVisible(true);
         panelChooseWord.setVisible(false);
-        panelGameRulesP2.setVisible(false);  
+        panelGameRulesP2.setVisible(false);
         panelOnePlayer.setVisible(false);
         panelMultiplayer.setVisible(false);
         panelGameRules.revalidate();
@@ -137,7 +141,7 @@ public class View extends JFrame {
         panelGameRulesP2.repaint();
     }
 
-    public void showPanelOnePlayer(){
+    public void showPanelOnePlayer() {
         panelStart.setVisible(false);
         panelLoginName.setVisible(false);
         panelDifficulty.setVisible(false);
@@ -150,7 +154,7 @@ public class View extends JFrame {
         panelOnePlayer.repaint();
     }
 
-    public void showPanelMultiplayer(){
+    public void showPanelMultiplayer() {
         panelStart.setVisible(false);
         panelLoginName.setVisible(false);
         panelDifficulty.setVisible(false);
@@ -162,11 +166,11 @@ public class View extends JFrame {
         panelMultiplayer.revalidate();
         panelMultiplayer.repaint();
     }
-    
+
     public void setMultiplayer(boolean isMultiplayer) {
         this.isMultiplayer = isMultiplayer;
     }
-    
+
     public boolean isMultiplayer() {
         return isMultiplayer;
     }
