@@ -21,10 +21,12 @@ public class Server {
             server = new ServerSocket(PORT);
             System.out.println("Servidor iniciado");
             while (true) {
+                System.out.println("Ha entrado al while");
                 Socket sc = server.accept();
                 nClient++;
+                System.out.println(nClient);
                 System.out.println("Cliente: " + nClient + " conectado");
-                ClientManager cm = new ClientManager(sc, nClient);
+                ClientManager cm = new ClientManager(sc, nClient, this);
                 connectedClients.add(cm);
                 cm.start();
                 if (!cm.isAlive()) {

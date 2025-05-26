@@ -12,7 +12,7 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
         String clientName = "";
         try (Socket socket = new Socket(SERVIDOR, PUERTO)) {
-            System.out.println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO);
+            System.out.println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO + " " + socket.isConnected());
             BufferedReader entrada = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
             PrintWriter salida = new PrintWriter(socket.getOutputStream(), true);
@@ -20,6 +20,7 @@ public class Client {
             clientName = scanner.nextLine();
             String mensaje = "Hola servidor, soy el cliente: " + clientName;
             salida.println(mensaje);
+            System.out.println("se mando el mensaje");
             String respuesta;
             while ((respuesta = entrada.readLine()) != null) {
                 if (!respuesta.equals("Adios, cliente")) {   

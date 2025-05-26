@@ -1,6 +1,5 @@
 package co.edu.uptc.model;
 
-import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;

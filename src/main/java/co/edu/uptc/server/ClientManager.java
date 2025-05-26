@@ -12,24 +12,28 @@ public class ClientManager extends Thread {
     BufferedReader input;
     PrintWriter output;
     int nClient;
+    Server serverInstance;
     Scanner sc = new Scanner(System.in);
 
-    public ClientManager(Socket socket, int nClient) {
+    public ClientManager(Socket socket, int nClient, Server serverInstance) {
         super();
         client = socket;
         this.nClient = nClient;
+        this.serverInstance = serverInstance;
     }
 
     public synchronized void run() {
-        super.run();
         try {
             input = new BufferedReader(new InputStreamReader(client.getInputStream()));
             output = new PrintWriter(client.getOutputStream(), true);
-            String message = input.readLine();
-            System.out.print("Mensaje del cliente: " + nClient + " " + message + "\n"
+            String initialMessage = input.readLine();
+            // if (initialMessage != null) {
+                
+            // }
+            System.out.print("Mensaje del cliente: " + nClient + " " + initialMessage + "\n"
                             +  ">>>Ingrese la respuesta para el cliente #" + nClient + ": ");
-            String respuesta = sc.nextLine();
-            output.println(respuesta);
+            String message = sc.nextLine();
+            output.println(message);
             while ((message = input.readLine()) != null) {
                 if (message.equalsIgnoreCase("clientes")) {
                     output.println(Server.showActiveClientsList());
@@ -37,6 +41,7 @@ public class ClientManager extends Thread {
                     output.println("Adios, cliente");
                     Server.connectedClients.get(nClient).finalize();
                     System.out.println("Client has desconected");
+                    sc.close();
                     return;
                 }else{
                     System.out.println("Mensaje del cliente #" + nClient + " " + message + "\n" + 
