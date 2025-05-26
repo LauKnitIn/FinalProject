@@ -59,15 +59,23 @@ public class PanelChooseWord extends JPanel {
 
     private void addOptions() {
 
-        ImageIcon trianguloArriba = new ImageIcon("frontend-proyecto\\resources\\Triangulo arriba.png");
-        ImageIcon trianguloAbajo = new ImageIcon("frontend-proyecto\\resources\\Triangulo abajo.png");
+        ImageIcon trianguloArriba = new ImageIcon("resources\\Triangulo arriba.png");
+        ImageIcon trianguloAbajo = new ImageIcon("resources\\Triangulo abajo.png");
 
-        addButton("Elige", 320, 220, e -> {});
+        add(createEligeLabel());
         addButton("Continuar", 320, 550, e -> showPanelOnePlayerOrMultiplayer());
 
         addButton(trianguloArriba, 850, 330, e -> navigateUp());
         addButton(trianguloAbajo, 850, 450, e -> navigateDown());
     }
+
+    private JLabel createEligeLabel() {
+    JLabel eligeLabel = new JLabel("Elige una palabra", SwingConstants.CENTER);
+    eligeLabel.setBounds(320, 220, 660, 90);
+    eligeLabel.setOpaque(false);
+    eligeLabel.setFont(FontPalette.TITLE_5_FONT);
+    return eligeLabel;
+}
 
     private void navigateDown() {
         palabraIndex = (palabraIndex + 1) % palabras.size();
