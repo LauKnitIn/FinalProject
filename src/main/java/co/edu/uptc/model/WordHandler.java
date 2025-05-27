@@ -25,4 +25,13 @@ public class WordHandler {
      return correspondingList;
     }
 
+    // {
+    //     this.wordListTest = this.gson.fromJson(this.reader, new TypeToken <Map<String,List<String>>>(){}.getType());
+    //     // this.wordListTest.
+    // }
+
+    public void showWord(){
+    //  this.wordListTest.
+    }
+
 }
