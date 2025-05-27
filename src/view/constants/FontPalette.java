@@ -12,6 +12,7 @@ public class FontPalette {
     public static Font TITLE_2_FONT = new Font("Courier Prime", Font.PLAIN, 75);
     public static Font TITLE_3_FONT = new Font("Courier Prime", Font.PLAIN, 70);
     public static Font TITLE_4_FONT = new Font("Courier Prime", Font.PLAIN, 65);
+    public static Font TITLE_5_FONT = new Font("Courier Prime", Font.PLAIN, 60);
 
     public static Font LISTWORDS_FONT = new Font("Courier Prime", Font.BOLD, 80);    
     public static Font JLABEL_NAME_FONT = new Font("Courier Prime", Font.BOLD, 20);   

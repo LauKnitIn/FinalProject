@@ -16,6 +16,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 
 import view.constants.ColorPalette;
 import view.constants.FontPalette;
@@ -28,9 +30,10 @@ public class PanelOnePlayer extends JPanel {
     private WordDisplayPanel wordDisplayPanel;
 
     public PanelOnePlayer() {
-        setSize(1300, 800);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMadera2.jpg").getImage();
+        backgroundImage = new ImageIcon("resources\\FondoMadera2.jpg").getImage();
         setLayout(null);
         initComponents();
     }
@@ -50,8 +53,8 @@ public class PanelOnePlayer extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon exitIcon = new ImageIcon("frontend-proyecto\\resources\\Salir.png");
-        ImageIcon homeIcon = new ImageIcon("frontend-proyecto\\resources\\home.png");
+        ImageIcon exitIcon = new ImageIcon("resources\\Salir.png");
+        ImageIcon homeIcon = new ImageIcon("resources\\home.png");
 
         addButton(exitIcon, 0, 0, e -> System.exit(0));
         addButton(homeIcon, 1150, 0, e -> showPanelLStar());
