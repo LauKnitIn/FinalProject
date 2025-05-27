@@ -12,11 +12,55 @@ public class Server {
     private int nClient = 0;
     public static List<ClientManager> connectedClients = new ArrayList<>();
 
-    public void init() {
-        startServer();
+    public void start() {
+        try {
+            this.server = new ServerSocket(this.PORT);
+            System.out.println("Servidor iniciado en puerto " + this.PORT);
+
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                nClientr++;
+                System.out.println("Cliente " + nClient + " conectado.");
+
+                ClientManager clientManager = new ClientManager(clientSocket, nClient, this);
+                connectedClients.add(clientManager);
+
+                clientManager.start();  // Inicia hilo para atender al cliente
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error en el servidor: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            stop();
+        }
     }
 
-    public void startServer() {
+    public synchronized void removeClient(ClientManager clientManager) {
+        connectedClients.remove(clientManager);
+        System.out.println("Cliente " + clientManager.getClientId() + " desconectado.");
+    }
+
+    public List<ClientManager> getConnectedClients() {
+        return connectedClients;
+    }
+
+    public void stop() {
+        try {
+            if (serverSocket != null) {
+                serverSocket.close();
+                System.out.println("Servidor detenido.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error al detener el servidor: " + e.getMessage());
+        }
+    }
+    /*public void init() {
+        startServer();
+    }*/
+
+
+    /*public void startServer() {
         try {
             server = new ServerSocket(PORT);
             System.out.println("Servidor iniciado");
@@ -46,7 +90,8 @@ public class Server {
         }
         clients+=("]");
         return clients;
-    }
+    }*/
+    
 
     public static void main(String[] args) {
         Server server = new Server();
