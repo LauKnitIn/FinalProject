@@ -41,7 +41,9 @@ public class Game {
     }
 
     public boolean processGuess(char letter) {
+        System.out.println("IN");
         boolean isCorrect = p1.guessLetter(letter);
+        System.out.println(p1.getWordToGuess() + " <--PALABRA");
         if (gameMode.equals(Mode.ONE_PLAYER)) {
             isGameFinished();
         }
@@ -136,5 +138,10 @@ public class Game {
     public boolean isFinished() {
         return hasFinished;
     }
+
+    public Player getPLayerTestOne(){
+        return this.p1;
+    }
+
 
 }

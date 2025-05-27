@@ -18,8 +18,8 @@ public class Server {
             System.out.println("Servidor iniciado en puerto " + this.PORT);
 
             while (true) {
-                Socket clientSocket = serverSocket.accept();
-                nClientr++;
+                Socket clientSocket = server.accept();
+                nClient++;
                 System.out.println("Cliente " + nClient + " conectado.");
 
                 ClientManager clientManager = new ClientManager(clientSocket, nClient, this);
@@ -47,8 +47,8 @@ public class Server {
 
     public void stop() {
         try {
-            if (serverSocket != null) {
-                serverSocket.close();
+            if (server != null) {
+                server.close();
                 System.out.println("Servidor detenido.");
             }
         } catch (Exception e) {
@@ -95,6 +95,6 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = new Server();
-        server.init();
+        server.start();
     }
 }
