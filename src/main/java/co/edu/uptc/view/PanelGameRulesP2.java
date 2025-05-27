@@ -63,8 +63,8 @@ public class PanelGameRulesP2 extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon xIcon = new ImageIcon("frontend-proyecto\\resources\\image x.png");
-        ImageIcon arrowIcon = new ImageIcon("frontend-proyecto\\resources\\image devolver.png");
+        ImageIcon xIcon = new ImageIcon("resources\\image x.png");
+        ImageIcon arrowIcon = new ImageIcon("resources\\image devolver.png");
 
         btnCerrar = addButton(xIcon, 0, 30, e -> showPanelStart());
         btnRetroceder = addButton(arrowIcon, 0, 635, e -> showPanelGameRules());
