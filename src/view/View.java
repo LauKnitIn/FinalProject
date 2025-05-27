@@ -28,8 +28,8 @@ public class View extends JFrame {
         this.presenter = presenter;
         setTitle("El ahorcado");
         backgroundMusic = new BackgroundMusic();
-        backgroundMusic.playFromFile("resources\\DulceCaritaDalmata.wav");
-        backgroundMusic.setVolume(0.7f);
+        backgroundMusic.playFromFile("resources\\Fly-Me-to-the-Moon.wav");
+        backgroundMusic.setVolume(0.8f);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
