@@ -5,17 +5,77 @@ import java.net.*;
 import java.util.Scanner;
 
 public class Client {
-    public static void leerRespuesta(BufferedReader input)  {
+
+    final String SERVIDOR = "localhost";
+    final int PUERTO = 12345;
+    Scanner scanner = new Scanner(System.in);
+    Socket socket;
+    BufferedReader input;
+    PrintWriter output;
+
+    public static void leerRespuesta(BufferedReader input) {
         String response;
-            try {
-                while (!(response = input.readLine()).equals("END")) {
+        try {
+            while (!(response = input.readLine()).equals("END")) {
                 System.out.println(">> Servidor: " + response);
-                }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+    }
+
+    public void createConection() {
+        try {
+            this.socket = new Socket(SERVIDOR, PUERTO);
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output = new PrintWriter(socket.getOutputStream(), true);
+            System.out
+                    .println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO + " " + socket.isConnected());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void sendName(String name) {
+        String command = "NAME " + name;
+        System.out.println("Nmobre = " + name);
+        output.println(command);
+        leerRespuesta(input);
+    }
+
+    public void sendGameData(String difficulty, boolean isMultiplayer, String word1, String word2) {
+        String mode = "";
+        String command = "START ";
+        if (isMultiplayer) {
+            mode = "2";
+        } else {
+            mode = "1";
+        }
+        String fullCommand = command + mode + " " + difficulty;
+        if (mode.equals("2")) {
+            fullCommand += " " + word1 + " " + word2;
+        }
+        output.println(fullCommand);
+        leerRespuesta(input);
+    }
+
+    public void sendGameData(String difficulty, boolean isMultiplayer) {
+        String mode = "";
+        String command = "START ";
+        if (isMultiplayer) {
+            mode = "2";
+        } else {
+            mode = "1";
+        }
+        String fullCommand = command + mode + " " + difficulty;
+        output.println(fullCommand);
+        leerRespuesta(input);
+    }
+
     public static void main(String[] args) {
 
         final String SERVIDOR = "localhost";
@@ -23,36 +83,37 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
 
         try (
-            Socket socket = new Socket(SERVIDOR, PUERTO);
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-        ) {
-            System.out.println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO + " " + socket.isConnected());
+                Socket socket = new Socket(SERVIDOR, PUERTO);
+                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter output = new PrintWriter(socket.getOutputStream(), true);) {
+            System.out
+                    .println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO + " " + socket.isConnected());
 
-            //Pedir nombre de jugador a la interfaz
+            // Pedir nombre de jugador a la interfaz
             System.out.print("Ingresa tu nombre: ");
             String playerName = scanner.nextLine();
             output.println("NAME " + playerName);
             leerRespuesta(input);
 
-            //Pedir el modo de juego que se eligio en la interfaz
+            // Pedir el modo de juego que se eligio en la interfaz
             System.out.print("Modo de juego (1 = SINGLE, 2 = MULTI): ");
             String mode = scanner.nextLine();
             System.out.print("Dificultad (1, 2, 3, 4): ");
             String difficulty = scanner.nextLine();
-            String fullCommand = "START " + mode + " " + difficulty;  
-            if(mode.equals("2")){
+            String fullCommand = "START " + mode + " " + difficulty;
+            if (mode.equals("2")) {
                 System.out.println("P1 : ");
                 String palabra1 = scanner.nextLine();
                 System.out.println("P2 : ");
                 String palabra2 = scanner.nextLine();
-                fullCommand += " " +  palabra1 + " " + palabra2;
+                fullCommand += " " + palabra1 + " " + palabra2;
             }
             output.println(fullCommand);
             leerRespuesta(input);
-                
+
             // Bucle principal del juego
-            while (true) {  //Manejar lo que se quiere hacer por comandos para que la comunicación sea más facil
+            while (true) { // Manejar lo que se quiere hacer por comandos para que la comunicación sea más
+                           // facil
                 System.out.println("\n--- Opciones ---");
                 System.out.println("1. Adivinar letra");
                 System.out.println("2. Ver progreso");
@@ -77,7 +138,7 @@ public class Client {
                     System.out.println("Opción inválida");
                     continue;
                 }
-             
+
             }
 
         } catch (IOException e) {

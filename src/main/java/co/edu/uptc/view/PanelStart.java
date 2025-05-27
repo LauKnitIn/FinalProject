@@ -14,8 +14,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.URL;
-
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
 import co.edu.uptc.view.constants.Locations;
@@ -66,7 +64,7 @@ public class PanelStart extends JPanel {
         return label;
     }
 
-    private void addOptions() {
+    private void addOptions() {//MOD recoger modo de juego para enviar al servidor por medio dle cliente
         ImageIcon informacionIcon = new ImageIcon(Locations.infoIcon);
     
         addButton("Un jugador", 320, 350, e -> {

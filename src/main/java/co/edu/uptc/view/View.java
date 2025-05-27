@@ -3,6 +3,7 @@ package co.edu.uptc.view;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
+import co.edu.uptc.client.Client;
 import co.edu.uptc.presenter.Presenter;
 
 public class View extends JFrame {
@@ -15,6 +16,7 @@ public class View extends JFrame {
     private PanelChooseWord panelChooseWord;
     private PanelOnePlayer panelOnePlayer;
     private PanelMultiplayer panelMultiplayer;
+    private Client guiClient;//Instancia de cliente que usa la GUI
 
     private boolean isMultiplayer = false;
 
@@ -32,6 +34,7 @@ public class View extends JFrame {
     }
 
     public void initComponents() {
+        makeConnection();
         panelStart = new PanelStart();
         panelLoginName = new PanelLoginName();
         panelDifficulty = new PanelDifficulty();
@@ -58,6 +61,11 @@ public class View extends JFrame {
         panelChooseWord.setVisible(false);
         panelOnePlayer.setVisible(false);
         panelMultiplayer.setVisible(false);
+    }
+
+    private void makeConnection(){//Metodo para establecer conexion con el servidor apenas arranca
+        guiClient = new Client();
+        guiClient.createConection();
     }
 
     public void showPanelLoginName() {
@@ -170,4 +178,10 @@ public class View extends JFrame {
     public boolean isMultiplayer() {
         return isMultiplayer;
     }
+
+    public Client getClient(){
+        return this.guiClient;
+    }
+
+
 }

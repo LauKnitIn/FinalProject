@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import co.edu.uptc.view.constants.FontPalette;
 
 public class WordDisplayPanel extends JPanel {
+    
     private String wordToGuess = "AMABLE"; 
     private Set<Integer> revealedIndices = new HashSet<>();
 

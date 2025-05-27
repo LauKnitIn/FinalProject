@@ -58,13 +58,15 @@ public class PanelDifficulty extends JPanel {
     }
 
     private void addOptions() {
-        addButton("Fácil", 420,250, e -> showPanelChooseWord());
-        addButton("Normal", 420, 370, e -> showPanelChooseWord());
-        addButton("Difícil", 420, 480, e -> showPanelChooseWord());
-        addButton("Extremo", 420, 590, e -> showPanelChooseWord());
+        addButton("Fácil", 420, 250, e -> sendDifficulty("1"));
+        addButton("Normal", 420, 370, e -> sendDifficulty("2"));
+        addButton("Difícil", 420, 480, e -> sendDifficulty("3"));
+        addButton("Extremo", 420, 590, e -> sendDifficulty("4"));
     }
 
-    private void addButton(String text, int x, int y, ActionListener actionListener) {
+    // MOD para obtener el texto de la opcion seleccionada y enviar informacion por
+    // medio del cliente al servidor
+    private String addButton(String text, int x, int y, ActionListener actionListener) {
         RoundedButton button = new RoundedButton(text, 20);
         button.setBounds(x, y, 460, 80);
         button.setBackground(ColorPalette.COLOR_BUTTON);
@@ -72,6 +74,16 @@ public class PanelDifficulty extends JPanel {
         button.setFont(FontPalette.BUTTON_FONT);
         button.addActionListener(actionListener);
         add(button);
+        return button.getText().toLowerCase();
+    }
+
+    private void sendDifficulty(String difficulty) {
+        boolean isMultiplayer = ((View) SwingUtilities.getWindowAncestor(this)).isMultiplayer();
+        if (!isMultiplayer) {
+            ((View) SwingUtilities.getWindowAncestor(this)).getClient().sendGameData(difficulty, isMultiplayer);
+        } else {
+            showPanelChooseWord();//MANEJAR MULTIPLES CLIENTES
+        }
     }
 
     private void showPanelChooseWord() {

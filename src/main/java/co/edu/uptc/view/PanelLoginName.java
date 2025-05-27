@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
-
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
 
@@ -19,7 +18,7 @@ public class PanelLoginName extends JPanel {
 
     private Image backgroundImage;
 
-    public PanelLoginName() {
+    public PanelLoginName() {//MOD para acceder al cliente y enviar datos
         setSize(1300, 800);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMenus.png").getImage();
@@ -56,11 +55,24 @@ public class PanelLoginName extends JPanel {
         return label;
     }
 
-    private void addOptions() {
+    private void addOptions() {//MOD para enviar nombre al cliente
+        RoundedTextField nameField = addTextField("  _______________________________  ", 330, 350, e -> {});
+        addButton("Continuar", 480, 500, e -> {
+            String name = nameField.getText().trim();
+            if (!(name.isEmpty())) {
+                System.out.println("NOMBRE INGRESADO -> " + name);
+                ((View)SwingUtilities.getWindowAncestor(PanelLoginName.this)).getClient().sendName(name);//enviar nombre
+                showPanelDifficulty();
+            }
+            
+        });
+    }
+
+    /*private void addOptions() {//MOD para enviar nombre al cliente
         addTextField("  _______________________________  ", 330, 350, e -> {});
 
         addButton("Continuar", 480, 500, e -> showPanelDifficulty());
-    }
+    }*/
 
     private void addButton(String text, int x, int y, ActionListener actionListener) {
         RoundedButton button = new RoundedButton(text, 20); 
@@ -71,14 +83,15 @@ public class PanelLoginName extends JPanel {
         button.addActionListener(actionListener);
         add(button);
     }
-
-        private void addTextField(String text, int x, int y, ActionListener actionListener) {
+        //MOD para poder obtener el valor ingresado de void a RoundTextField
+        private RoundedTextField addTextField(String text, int x, int y, ActionListener actionListener) {
         RoundedTextField textField = new RoundedTextField(1, 30, 30, text); 
         textField.setBounds(x, y, 650, 70);
         textField.setFont(FontPalette.TEXTFIELD_FONT);
         textField.setBackground(ColorPalette.COLOR_TEXTFIELD); 
         textField.setForeground(Color.WHITE); 
         add(textField);
+        return textField;
     }
 
     public void showPanelDifficulty() {
