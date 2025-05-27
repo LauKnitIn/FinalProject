@@ -1,8 +1,10 @@
 package co.edu.uptc.server;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Server {
@@ -10,7 +12,7 @@ public class Server {
     public ServerSocket server = null;
     public int PORT = 12345;
     private int nClient = 0;
-    public static List<ClientManager> connectedClients = new ArrayList<>();
+    public static List<ClientManager> connectedClients = Collections.synchronizedList(new ArrayList<>());
 
     public void init() {
         startServer();
@@ -24,28 +26,44 @@ public class Server {
                 System.out.println("Ha entrado al while");
                 Socket sc = server.accept();
                 nClient++;
-                System.out.println(nClient);
                 System.out.println("Cliente: " + nClient + " conectado");
                 ClientManager cm = new ClientManager(sc, nClient, this);
                 connectedClients.add(cm);
                 cm.start();
-                if (!cm.isAlive()) {
-                    System.out.println(cm.isAlive());
-                    System.out.println(">>>Client " + nClient + "disconnected<<<");
+            }
+        } catch (IOException e) {
+            System.err.println("Error en el servidor: " + e.getMessage());
+        } finally {
+            if (server != null && !server.isClosed()) {
+                try {
+                    server.close();
+                    System.out.println("Servidor detenido.");
+                } catch (IOException e) {
+                    System.err.println("Error al cerrar el socket del servidor: " + e.getMessage());
                 }
             }
-        } catch (Exception e) {
-            // TODO: handle exception
         }
     }
 
-    public static String showActiveClientsList() {
-        String clients = "[ ";
-        for (ClientManager cliente : connectedClients) {
-            clients+=(cliente.isAlive())?("(" +cliente.nClient + ") "): "";
+    public static void removeClient(ClientManager clientManager){
+        boolean removed = connectedClients.remove(clientManager);
+        if (removed) {
+            System.out.println("Cliente #" + clientManager.getId() + " desconectado y eliminado de la lista");
         }
-        clients+=("]");
-        return clients;
+    }
+    public static String showActiveClientsList() {
+        StringBuilder clients = new StringBuilder("[ ");
+        synchronized (connectedClients) {
+            if (connectedClients.isEmpty()) {
+                clients.append("No hay clientes conectados ");
+            } else {
+                for (ClientManager client : connectedClients) {
+                    clients.append("(Cliente #").append(client.getId()).append(") ");
+                }
+            }
+        }
+        clients.append("]");
+        return clients.toString();
     }
 
     public static void main(String[] args) {
