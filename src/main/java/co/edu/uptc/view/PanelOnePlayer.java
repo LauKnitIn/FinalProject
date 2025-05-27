@@ -16,6 +16,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
@@ -26,9 +28,13 @@ public class PanelOnePlayer extends JPanel {
     private JPanel keyboardBackground;
     private JPanel hangmanPanel;
     private WordDisplayPanel wordDisplayPanel;
+    private JPanel namePanel;
+    private JButton btnSalir;
+    private JButton btnHome;
 
     public PanelOnePlayer() {
-        setSize(1300, 800);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         backgroundImage = new ImageIcon("resources\\FondoMadera2.jpg").getImage();
         setLayout(null);
@@ -53,8 +59,8 @@ public class PanelOnePlayer extends JPanel {
         ImageIcon exitIcon = new ImageIcon("resources\\cerrar-sesion.png");
         ImageIcon homeIcon = new ImageIcon("resources\\home.png");
 
-        addButton(exitIcon, 0, 0, e -> System.exit(0));
-        addButton(homeIcon, 1150, 0, e -> showPanelLStar());
+        btnSalir = addButton(exitIcon, 0, 0, e -> System.exit(0));
+        btnHome = addButton(homeIcon, 0, 0, e -> showPanelLStar());
     }
 
     private void addkeyboard() {
@@ -128,14 +134,11 @@ public class PanelOnePlayer extends JPanel {
                 int baseY = 60;
 
                 // Poste
-                // base del suelo
-                g2d.drawLine(baseX, baseY + 300, baseX + 60, baseY + 300);
-                // poste vertical
-                g2d.drawLine(baseX + 30, baseY + 300, baseX + 30, baseY);
-                // barra superior
-                g2d.drawLine(baseX + 30, baseY, baseX + 150, baseY);
-                // cuerda
-                g2d.drawLine(baseX + 150, baseY, baseX + 150, baseY + 50);
+                g2d.drawLine(baseX, baseY + 300, baseX + 60, baseY + 300); // base del suelo
+                g2d.drawLine(baseX + 30, baseY + 300, baseX + 30, baseY); // poste vertical
+                g2d.drawLine(baseX + 30, baseY, baseX + 150, baseY); // barra superior
+                g2d.drawLine(baseX + 150, baseY, baseX + 150, baseY + 50); // cuerda
+
                 // Cabeza
                 g2d.drawOval(baseX + 135, baseY + 50, 30, 30);
                 // Cuerpo
@@ -149,13 +152,13 @@ public class PanelOnePlayer extends JPanel {
         };
 
         hangmanPanel.setOpaque(false);
-        hangmanPanel.setBounds(50, 150, 600, 500);
+        hangmanPanel.setBounds(50, 150, 650, 500);
         hangmanPanel.setLayout(null);
         add(hangmanPanel);
     }
 
     private void addPlayerNamePanel() {
-        JPanel namePanel = new JPanel() {
+        namePanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -192,7 +195,7 @@ public class PanelOnePlayer extends JPanel {
         return button;
     }
 
-    private void addButton(ImageIcon icon, int x, int y, ActionListener actionListener) {
+    private JButton addButton(ImageIcon icon, int x, int y, ActionListener actionListener) {
         JButton button = new JButton();
         button.setBounds(x, y, 150, 80);
         button.setIcon(icon);
@@ -201,12 +204,62 @@ public class PanelOnePlayer extends JPanel {
         button.setBorderPainted(false);
         button.addActionListener(actionListener);
         add(button);
+        return button;
     }
 
     private void showPanelLStar() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelOnePlayer.this);
         if (topFrame instanceof View) {
             ((View) topFrame).showPanelStart();
+        }
+    }
+
+    @Override
+    public void doLayout() {
+        super.doLayout();
+
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+
+        int kbX = 0, kbY = 0, kbWidth = 0, kbHeight = 0;
+        if (keyboardBackground != null) {
+            kbWidth = keyboardBackground.getWidth();
+            kbHeight = keyboardBackground.getHeight();
+            kbX = panelWidth - kbWidth - 150;
+            kbY = panelHeight - kbHeight - 180;
+            keyboardBackground.setBounds(kbX, kbY, kbWidth, kbHeight);
+        }
+
+        if (wordDisplayPanel != null) {
+            int wdpWidth = wordDisplayPanel.getWidth();
+            int wdpHeight = wordDisplayPanel.getHeight();
+            int wdpX = panelWidth - wdpWidth - 0 + 125;
+            int wdpY = panelHeight - kbHeight - wdpHeight - 340;
+            wordDisplayPanel.setBounds(wdpX, wdpY, wdpWidth, wdpHeight);
+        }
+
+        if (keyboardBackground != null && namePanel != null) {
+            int npWidth = namePanel.getWidth();
+            int npHeight = namePanel.getHeight();
+            int npX = kbX + (kbWidth - npWidth) / 2;
+            int npY = kbY - npHeight - 50;
+            namePanel.setBounds(npX, npY, npWidth, npHeight);
+        }
+
+        if (hangmanPanel != null) {
+            int hpWidth = hangmanPanel.getWidth();
+            int hpHeight = hangmanPanel.getHeight();
+            int xPosition = 80;
+            int yPosition = (panelHeight - hpHeight) / 2;
+            hangmanPanel.setBounds(xPosition, yPosition, hpWidth, hpHeight);
+        }
+        
+        if (btnSalir != null) {
+            btnSalir.setBounds(30, 20, 150, 80); 
+        }
+        
+        if (btnHome != null) {
+            btnHome.setBounds(panelWidth - 150 - 30, 20, 150, 80); 
         }
     }
 }

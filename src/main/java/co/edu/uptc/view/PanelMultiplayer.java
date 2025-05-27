@@ -13,6 +13,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
