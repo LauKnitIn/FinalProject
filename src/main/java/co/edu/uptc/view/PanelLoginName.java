@@ -61,7 +61,7 @@ public class PanelLoginName extends JPanel {
     }
 
     private void addOptions() {
-    nameTextField = addTextField("  _______________________________  ", 0, 350, e -> {
+    nameTextField = addTextField("  ____________________  ", 0, 350, e -> {
     });
 
     continuarButton = addButton("Continuar", 0, 500, e -> showPanelDifficulty());

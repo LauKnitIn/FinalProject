@@ -14,6 +14,8 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
@@ -25,8 +27,14 @@ public class PanelChooseWord extends JPanel {
     private JLabel palabraLabel;
     private int palabraIndex = 0;
 
+    private JLabel eligeLabel;
+    private RoundedButton continuarButton;
+    private JButton btnTrianguloArriba;
+    private JButton btnTrianguloAbajo;
+
     public PanelChooseWord() {
-        setSize(1300, 800);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         backgroundImage = new ImageIcon("resources\\FondoMenus.png").getImage();
         setLayout(null);
@@ -45,7 +53,7 @@ public class PanelChooseWord extends JPanel {
     }
 
     private void addListWords() {
-        palabraLabel = createLabel(palabras.get(palabraIndex), 400, 400, 515, 70);
+        palabraLabel = createLabel(palabras.get(palabraIndex), 0, 400, 515, 70);
         add(palabraLabel);
     }
 
@@ -62,20 +70,22 @@ public class PanelChooseWord extends JPanel {
         ImageIcon trianguloArriba = new ImageIcon("resources\\Triangulo arriba.png");
         ImageIcon trianguloAbajo = new ImageIcon("resources\\Triangulo abajo.png");
 
-        add(createEligeLabel());
-        addButton("Continuar", 320, 550, e -> showPanelOnePlayerOrMultiplayer());
+        eligeLabel = createEligeLabel();
+        add(eligeLabel);
 
-        addButton(trianguloArriba, 850, 330, e -> navigateUp());
-        addButton(trianguloAbajo, 850, 450, e -> navigateDown());
+        continuarButton = addButton("Continuar", 0, 550, e -> showPanelOnePlayerOrMultiplayer());
+
+        btnTrianguloArriba = addButton(trianguloArriba, 0, 330, e -> navigateUp());
+        btnTrianguloAbajo = addButton(trianguloAbajo, 0, 450, e -> navigateDown());
     }
 
     private JLabel createEligeLabel() {
-    JLabel eligeLabel = new JLabel("Elige una palabra", SwingConstants.CENTER);
-    eligeLabel.setBounds(320, 220, 660, 90);
-    eligeLabel.setOpaque(false);
-    eligeLabel.setFont(FontPalette.TITLE_5_FONT);
-    return eligeLabel;
-}
+        JLabel eligeLabel = new JLabel("Elige una palabra", SwingConstants.CENTER);
+        eligeLabel.setBounds(0, 220, 660, 90);
+        eligeLabel.setOpaque(false);
+        eligeLabel.setFont(FontPalette.TITLE_5_FONT);
+        return eligeLabel;
+    }
 
     private void navigateDown() {
         palabraIndex = (palabraIndex + 1) % palabras.size();
@@ -87,7 +97,7 @@ public class PanelChooseWord extends JPanel {
         palabraLabel.setText(palabras.get(palabraIndex));
     }
 
-    private void addButton(String text, int x, int y, ActionListener actionListener) {
+    private RoundedButton addButton(String text, int x, int y, ActionListener actionListener) {
         RoundedButton button = new RoundedButton(text, 20);
         button.setBounds(x, y, 660, 90);
         button.setBackground(ColorPalette.COLOR_BUTTON);
@@ -95,9 +105,10 @@ public class PanelChooseWord extends JPanel {
         button.setFont(FontPalette.BUTTON_3_FONT);
         button.addActionListener(actionListener);
         add(button);
+        return button;
     }
 
-    private void addButton(ImageIcon icon, int x, int y, ActionListener actionListener) {
+    private JButton addButton(ImageIcon icon, int x, int y, ActionListener actionListener) {
         JButton button = new JButton();
         button.setBounds(x, y, 150, 80);
         button.setIcon(icon);
@@ -106,9 +117,10 @@ public class PanelChooseWord extends JPanel {
         button.setBorderPainted(false);
         button.addActionListener(actionListener);
         add(button);
+        return button;
     }
 
-        private void showPanelOnePlayerOrMultiplayer() {
+    private void showPanelOnePlayerOrMultiplayer() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelChooseWord.this);
         if (topFrame instanceof View) {
             View view = (View) topFrame;
@@ -120,4 +132,49 @@ public class PanelChooseWord extends JPanel {
         }
     }
 
+    @Override
+    public void doLayout() {
+        super.doLayout();
+        if (palabraLabel != null) {
+            int panelWidth = getWidth();
+            int labelWidth = palabraLabel.getWidth();
+            int yPosition = palabraLabel.getY();
+            int labelHeight = palabraLabel.getHeight();
+            int xPosition = (panelWidth - labelWidth) / 2;
+            palabraLabel.setBounds(xPosition, yPosition, labelWidth, labelHeight);
+        }
+        if (eligeLabel != null) {
+            int panelWidth = getWidth();
+            int labelWidth = eligeLabel.getWidth();
+            int yPosition = eligeLabel.getY();
+            int labelHeight = eligeLabel.getHeight();
+            int xPosition = (panelWidth - labelWidth) / 2;
+            eligeLabel.setBounds(xPosition, yPosition, labelWidth, labelHeight);
+        }
+        if (continuarButton != null) {
+            int panelWidth = getWidth();
+            int btnWidth = continuarButton.getWidth();
+            int yPosition = continuarButton.getY();
+            int btnHeight = continuarButton.getHeight();
+            int xPosition = (panelWidth - btnWidth) / 2;
+            continuarButton.setBounds(xPosition, yPosition, btnWidth, btnHeight);
+        }
+
+        if (btnTrianguloArriba != null) {
+            int panelWidth = getWidth();
+            int btnWidth = btnTrianguloArriba.getWidth();
+            int yPosition = btnTrianguloArriba.getY();
+            int btnHeight = btnTrianguloArriba.getHeight();
+            int xPosition = panelWidth - btnWidth - 450;
+            btnTrianguloArriba.setBounds(xPosition, yPosition, btnWidth, btnHeight);
+        }
+        if (btnTrianguloAbajo != null) {
+            int panelWidth = getWidth();
+            int btnWidth = btnTrianguloAbajo.getWidth();
+            int yPosition = btnTrianguloAbajo.getY();
+            int btnHeight = btnTrianguloAbajo.getHeight();
+            int xPosition = panelWidth - btnWidth - 450;
+            btnTrianguloAbajo.setBounds(xPosition, yPosition, btnWidth, btnHeight);
+        }
+    }
 }
