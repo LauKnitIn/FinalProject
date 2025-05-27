@@ -46,8 +46,8 @@ public class PanelOnePlayer extends JPanel {
         addOptions();
         addkeyboard();
         addHangmanPanel();
-        addPlayerNamePanel();
         addWordDisplayPanel();
+        addPlayerNamePanel();
     }
 
     private void addOptions() {
@@ -152,7 +152,7 @@ public class PanelOnePlayer extends JPanel {
         add(hangmanPanel);
     }
 
-    private void addPlayerNamePanel() {
+    public void addPlayerNamePanel() {
         JPanel namePanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -166,8 +166,8 @@ public class PanelOnePlayer extends JPanel {
         namePanel.setOpaque(false);
         namePanel.setLayout(new BorderLayout());
         namePanel.setBounds(830, 380, 280, 50);
-
-        JLabel nameLabel = new JLabel("ALEXANDER", SwingConstants.CENTER);
+        //String name = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().getPlayerName().toUpperCase();
+        JLabel nameLabel = new JLabel("TEST", SwingConstants.CENTER);
         nameLabel.setFont(FontPalette.JLABEL_NAME_FONT);
         nameLabel.setForeground(Color.BLACK);
 
@@ -190,7 +190,8 @@ public class PanelOnePlayer extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().makeGuess(text);
+             String value = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().makeGuess(text);
+             wordDisplayPanel.setProgress(value);
             }
         });
         return button;

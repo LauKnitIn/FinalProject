@@ -75,7 +75,7 @@ public class View extends JFrame {
         panelGameRules.setVisible(false);
         panelGameRulesP2.setVisible(false);
         panelChooseWord.setVisible(false);
-        panelOnePlayer.setVisible(false);
+        //panelOnePlayer.setVisible(false);
         panelMultiplayer.setVisible(false);
         panelLoginName.revalidate();
         panelLoginName.repaint();
@@ -88,7 +88,7 @@ public class View extends JFrame {
         panelChooseWord.setVisible(false);
         panelGameRulesP2.setVisible(false);
         panelDifficulty.setVisible(true);
-        panelOnePlayer.setVisible(false);
+        //panelOnePlayer.setVisible(false);
         panelMultiplayer.setVisible(false);
         panelDifficulty.revalidate();
         panelDifficulty.repaint();
@@ -100,7 +100,7 @@ public class View extends JFrame {
         panelDifficulty.setVisible(false);
         panelGameRules.setVisible(false);
         panelChooseWord.setVisible(false);
-        panelOnePlayer.setVisible(false);
+        //panelOnePlayer.setVisible(false);
         panelGameRulesP2.setVisible(false);
         panelMultiplayer.setVisible(false);
         panelStart.revalidate();
@@ -114,7 +114,7 @@ public class View extends JFrame {
         panelGameRules.setVisible(true);
         panelChooseWord.setVisible(false);
         panelGameRulesP2.setVisible(false);  
-        panelOnePlayer.setVisible(false);
+        //panelOnePlayer.setVisible(false);
         panelMultiplayer.setVisible(false);
         panelGameRules.revalidate();
         panelGameRules.repaint();
@@ -127,7 +127,7 @@ public class View extends JFrame {
         panelGameRules.setVisible(false);
         panelGameRulesP2.setVisible(false);
         panelChooseWord.setVisible(true);
-        panelOnePlayer.setVisible(false);
+        //panelOnePlayer.setVisible(false);
         panelMultiplayer.setVisible(false);
         panelChooseWord.revalidate();
         panelChooseWord.repaint();
@@ -140,7 +140,7 @@ public class View extends JFrame {
         panelGameRules.setVisible(false);
         panelGameRulesP2.setVisible(true);
         panelChooseWord.setVisible(false);
-        panelOnePlayer.setVisible(false);
+        //panelOnePlayer.setVisible(false);
         panelGameRulesP2.revalidate();
         panelGameRulesP2.repaint();
     }
@@ -165,7 +165,7 @@ public class View extends JFrame {
         panelGameRules.setVisible(false);
         panelGameRulesP2.setVisible(false);
         panelChooseWord.setVisible(false);
-        panelOnePlayer.setVisible(false);
+        //panelOnePlayer.setVisible(false);
         panelMultiplayer.setVisible(true);
         panelMultiplayer.revalidate();
         panelMultiplayer.repaint();

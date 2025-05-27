@@ -8,8 +8,8 @@ public class Game {
     private Difficulty chosenDifficulty;
     private Mode gameMode;
     private boolean hasFinished;
-    public Player p1;
-    public Player p2;
+    private Player p1;
+    private Player p2;
     private WordHandler wordHandler;
 
     public Game(Difficulty chosenDifficulty, Mode mode) {
@@ -139,7 +139,11 @@ public class Game {
         return hasFinished;
     }
 
-    public Player getPLayerTestOne(){
+    public Player getPLayerTwo(){
+        return this.p2;
+    }
+
+    public Player getPlayerOne(){
         return this.p1;
     }
 

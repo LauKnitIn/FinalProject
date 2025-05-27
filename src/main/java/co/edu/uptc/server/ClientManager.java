@@ -22,6 +22,8 @@ public class ClientManager extends Thread {
     Server serverInstance;
     Scanner sc = new Scanner(System.in);
     private Game game;
+    private Mode gameMode;
+    String playerName;
 
     public ClientManager(Socket socket, int nClient, Server serverInstance) {
         this.client = socket;
@@ -45,7 +47,7 @@ public class ClientManager extends Thread {
         }
     }
 
-    private Difficulty evlauateDifficulty(String val){
+    private Difficulty evlauateDifficulty(String val) {
         Difficulty selected = null;
         switch (val) {
             case "1":
@@ -72,31 +74,33 @@ public class ClientManager extends Thread {
         System.out.println(keyword);
         switch (keyword) {
             case "NAME":
-                String playerName = command.substring(5); // Salta "NAME "
+                playerName = command.substring(5); // Salta "NAME "
                 output.println("Bienvenido, " + playerName + "!");
-                 output.println("END");
+                output.println("END");
                 break;
             case "START":
                 if (parts.length >= 3) {
                     int modeValue = Integer.parseInt(parts[1]);
                     Difficulty difficulty = evlauateDifficulty(parts[2].toUpperCase());
 
-                    Mode gameMode = null;
+                    this.gameMode = null;
                     if (modeValue == 1) {
-                        gameMode = Mode.ONE_PLAYER;
+                        this.gameMode = Mode.ONE_PLAYER;
                     } else if (modeValue == 2 && parts.length >= 5) {
-                        gameMode = Mode.MULTIPLAYER;
+                        this.gameMode = Mode.MULTIPLAYER;
                         Word word1 = new Word(parts[3]);
                         Word word2 = new Word(parts[4]);
                         this.game.assignWordsMultiplayer(word1, word2);
                     }
-                    this.game = new Game(difficulty, gameMode);
-                    output.println("Juego iniciado en modo " + gameMode + " con dificultad " + difficulty);
-                    //output.println("Progreso: " + game.getPlayerProgress());
+                    this.game = new Game(difficulty, this.gameMode);
+                    if (modeValue == 1) {
+                        this.game.getPlayerOne().setName(this.playerName);
+                    }
+                    output.println("Juego iniciado en modo " + this.gameMode + " con dificultad " + difficulty);
                 } else {
                     output.println("Comando START inválido. Usa: START:modo,dificultad,palabraP1,palabraP2");
                 }
-                 output.println("END");
+                output.println("END");
                 break;
 
             case "GUESS":
@@ -105,22 +109,22 @@ public class ClientManager extends Thread {
                     System.out.println(letter + "LETRA");
                     boolean correct = this.game.processGuess(letter);
                     String progress = this.game.getPlayerProgress();
-                    String palabra = this.game.p1.getWordToGuess().getValue();
+                    String palabra = this.game.getPlayerOne().getWordToGuess().getValue();
                     System.out.println("PALABRA --> " + palabra);
                     String message = "";
                     if (correct) {
                         message = "Correcto";
-                    }else{
+                    } else {
                         message = "Incorrecto";
                     }
-                    output.println((message) + " Progreso: " + progress);
+                    output.println(/*(message) + " Progreso: " + */progress);
                     if (game.isFinished()) {
                         output.println("Juego terminado. ¿Ganaste?: " + this.game.getWinner());
                     }
                 } else {
                     output.println("No se puede adivinar letra. ¿Iniciaste el juego?");
                 }
-                 output.println("END");
+                output.println("END");
                 break;
 
             case "STATUS":
@@ -130,7 +134,7 @@ public class ClientManager extends Thread {
                 } else {
                     output.println("No has iniciado un juego todavía.");
                 }
-                 output.println("END");
+                output.println("END");
                 break;
 
             case "EXIT":
@@ -140,7 +144,7 @@ public class ClientManager extends Thread {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                 output.println("END");
+                output.println("END");
                 break;
 
             default:
@@ -148,11 +152,19 @@ public class ClientManager extends Thread {
                 output.println("END");
                 break;
         }
-       
+
+    }
+
+    public void getPlayerName() {
+        System.out.println("IN GET NAME");
+        if (this.gameMode.equals(Mode.ONE_PLAYER)) {
+            output.println(this.game.getPlayerOne().getName());
+            output.println("END");
+        }
     }
 
     public String getClientId() {
-       return String.valueOf(this.nClient);
+        return String.valueOf(this.nClient);
     }
 
 }

@@ -13,16 +13,19 @@ public class Client {
     BufferedReader input;
     PrintWriter output;
 
-    public static void leerRespuesta(BufferedReader input) {
-        String response;
+    public static String leerRespuesta(BufferedReader input) {
+        String response = "";
+        String fullResponse = "";
         try {
             while (!(response = input.readLine()).equals("END")) {
                 System.out.println(">> Servidor: " + response);
+                fullResponse += response;
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        System.out.println("RESPONDE :" + response);
+        return fullResponse;
     }
 
     public void createConection() {
@@ -76,43 +79,51 @@ public class Client {
         leerRespuesta(input);
     }
 
-    public void makeGuess(String letter){
+    public String makeGuess(String letter) {
         String command = "GUESS ";
         String fullCommand = command + letter.toUpperCase();
         output.println(fullCommand);
-        leerRespuesta(input);
+        String res = leerRespuesta(input);
+        return res;
     }
 
-    public void startGame(){
-          // Bucle principal del juego
-            while (true) { // Manejar lo que se quiere hacer por comandos para que la comunicación sea más
-                           // facil
-                System.out.println("\n--- Opciones ---");
-                System.out.println("1. Adivinar letra");
-                System.out.println("2. Ver progreso");
-                System.out.println("3. Salir");
-                System.out.print("Selecciona una opción: ");
-                String option = scanner.nextLine();
+    public String getPlayerName() {
+        System.out.println("IN NAME METHOD");
+        String name = "";
+        name += leerRespuesta(input);
+        return name;
+    }
 
-                if (option.equals("1")) {
-                    System.out.print("Ingresa letra: ");
-                    String letter = scanner.nextLine().toUpperCase();
-                    output.println("GUESS " + letter);
-                    leerRespuesta(input);
-                } else if (option.equals("2")) {
-                    output.println("STATUS");
-                    leerRespuesta(input);
-                } else if (option.equals("3")) {
-                    output.println("EXIT");
-                    leerRespuesta(input);
-                    System.out.println("Saliendo del juego...");
-                    break;
-                } else {
-                    System.out.println("Opción inválida");
-                    continue;
-                }
+    public void startGame() {
+        // Bucle principal del juego
+        while (true) { // Manejar lo que se quiere hacer por comandos para que la comunicación sea más
+                       // facil
+            System.out.println("\n--- Opciones ---");
+            System.out.println("1. Adivinar letra");
+            System.out.println("2. Ver progreso");
+            System.out.println("3. Salir");
+            System.out.print("Selecciona una opción: ");
+            String option = scanner.nextLine();
 
+            if (option.equals("1")) {
+                System.out.print("Ingresa letra: ");
+                String letter = scanner.nextLine().toUpperCase();
+                output.println("GUESS " + letter);
+                leerRespuesta(input);
+            } else if (option.equals("2")) {
+                output.println("STATUS");
+                leerRespuesta(input);
+            } else if (option.equals("3")) {
+                output.println("EXIT");
+                leerRespuesta(input);
+                System.out.println("Saliendo del juego...");
+                break;
+            } else {
+                System.out.println("Opción inválida");
+                continue;
             }
+
+        }
 
     }
 
