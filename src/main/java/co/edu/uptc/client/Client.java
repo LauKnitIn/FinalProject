@@ -76,6 +76,46 @@ public class Client {
         leerRespuesta(input);
     }
 
+    public void makeGuess(String letter){
+        String command = "GUESS ";
+        String fullCommand = command + letter.toUpperCase();
+        output.println(fullCommand);
+        leerRespuesta(input);
+    }
+
+    public void startGame(){
+          // Bucle principal del juego
+            while (true) { // Manejar lo que se quiere hacer por comandos para que la comunicación sea más
+                           // facil
+                System.out.println("\n--- Opciones ---");
+                System.out.println("1. Adivinar letra");
+                System.out.println("2. Ver progreso");
+                System.out.println("3. Salir");
+                System.out.print("Selecciona una opción: ");
+                String option = scanner.nextLine();
+
+                if (option.equals("1")) {
+                    System.out.print("Ingresa letra: ");
+                    String letter = scanner.nextLine().toUpperCase();
+                    output.println("GUESS " + letter);
+                    leerRespuesta(input);
+                } else if (option.equals("2")) {
+                    output.println("STATUS");
+                    leerRespuesta(input);
+                } else if (option.equals("3")) {
+                    output.println("EXIT");
+                    leerRespuesta(input);
+                    System.out.println("Saliendo del juego...");
+                    break;
+                } else {
+                    System.out.println("Opción inválida");
+                    continue;
+                }
+
+            }
+
+    }
+
     public static void main(String[] args) {
 
         final String SERVIDOR = "localhost";

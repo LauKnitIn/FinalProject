@@ -91,10 +91,8 @@ public class ClientManager extends Thread {
                         this.game.assignWordsMultiplayer(word1, word2);
                     }
                     this.game = new Game(difficulty, gameMode);
-
-                
-                    //output.println("Juego iniciado en modo " + gameMode + " con dificultad " + difficulty);
-                    output.println("Progreso: " + game.getPlayerProgress());
+                    output.println("Juego iniciado en modo " + gameMode + " con dificultad " + difficulty);
+                    //output.println("Progreso: " + game.getPlayerProgress());
                 } else {
                     output.println("Comando START inválido. Usa: START:modo,dificultad,palabraP1,palabraP2");
                 }

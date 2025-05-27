@@ -77,10 +77,12 @@ public class PanelDifficulty extends JPanel {
         return button.getText().toLowerCase();
     }
 
-    private void sendDifficulty(String difficulty) {
+    private void sendDifficulty(String difficulty) {//MOD Se agrega metodo para configurar el juego en el servidor
         boolean isMultiplayer = ((View) SwingUtilities.getWindowAncestor(this)).isMultiplayer();
         if (!isMultiplayer) {
             ((View) SwingUtilities.getWindowAncestor(this)).getClient().sendGameData(difficulty, isMultiplayer);
+            showPanelOnePlayer();
+
         } else {
             showPanelChooseWord();//MANEJAR MULTIPLES CLIENTES
         }
@@ -90,6 +92,13 @@ public class PanelDifficulty extends JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelDifficulty.this);
         if (topFrame instanceof View) {
             ((View) topFrame).showPanelChooseWord();
+        }
+    }
+
+    private void showPanelOnePlayer() {
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelDifficulty.this);
+        if (topFrame instanceof View) {
+            ((View) topFrame).showPanelOnePlayer();
         }
     }
 

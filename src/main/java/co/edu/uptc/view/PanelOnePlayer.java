@@ -15,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import co.edu.uptc.view.constants.ColorPalette;
@@ -186,6 +187,12 @@ public class PanelOnePlayer extends JPanel {
         button.setBackground(ColorPalette.COLOR_BUTTON);
         button.setForeground(Color.WHITE);
         button.setFont(FontPalette.BUTTON_KERYBOARD_FONT);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+             ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().makeGuess(text);
+            }
+        });
         return button;
     }
 
