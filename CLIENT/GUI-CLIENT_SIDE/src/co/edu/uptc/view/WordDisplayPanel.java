@@ -12,7 +12,7 @@ import co.edu.uptc.view.constants.FontPalette;
 
 public class WordDisplayPanel extends JPanel {
     
-    private String progress;
+    private String progress = "";
 
       public WordDisplayPanel() {
         setOpaque(false);

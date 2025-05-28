@@ -89,8 +89,10 @@ public class Client {
 
     public String getPlayerName() {
         System.out.println("IN NAME METHOD");
-        String name = "";
-        name += leerRespuesta(input);
+        String command = "GET ";
+        String fullCommand = command + "NAME";
+        output.println(fullCommand);
+        String name = leerRespuesta(input);
         return name;
     }
 
