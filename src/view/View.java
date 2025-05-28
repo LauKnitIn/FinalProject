@@ -29,7 +29,7 @@ public class View extends JFrame {
         setTitle("El ahorcado");
         backgroundMusic = new BackgroundMusic();
         backgroundMusic.playFromFile("resources\\Fly-Me-to-the-Moon.wav");
-        backgroundMusic.setVolume(1f);
+        backgroundMusic.setVolume(0.8f);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);

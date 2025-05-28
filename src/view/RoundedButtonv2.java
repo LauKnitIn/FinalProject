@@ -51,9 +51,7 @@ public class RoundedButtonv2 extends JButton {
     }
 
     public void buttonEffects() {
-        if (isEnabled() == false) {
-            setHoverSettings();
-        }
+        setHoverSettings();
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,12 +66,16 @@ public class RoundedButtonv2 extends JButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(ColorPalette.COLOR_BUTTON_HOVER);
+                if (isEnabled()){
+                    setBackground(ColorPalette.COLOR_BUTTON_HOVER);
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(ColorPalette.COLOR_BUTTON);
+                if (isEnabled()) {
+                    setBackground(ColorPalette.COLOR_BUTTON);
+                }
             }
         });
     }
