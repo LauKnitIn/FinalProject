@@ -36,7 +36,7 @@ public class PanelChooseWord extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }
@@ -67,8 +67,8 @@ public class PanelChooseWord extends JPanel {
 
     private void addOptions() {
 
-        ImageIcon trianguloArriba = new ImageIcon("resources\\Triangulo arriba.png");
-        ImageIcon trianguloAbajo = new ImageIcon("resources\\Triangulo abajo.png");
+        ImageIcon trianguloArriba = new ImageIcon("src\\co\\edu\\uptc\\resources\\Triangulo arriba.png");
+        ImageIcon trianguloAbajo = new ImageIcon("src\\co\\edu\\uptc\\resources\\Triangulo abajo.png");
 
         eligeLabel = createEligeLabel();
         add(eligeLabel);

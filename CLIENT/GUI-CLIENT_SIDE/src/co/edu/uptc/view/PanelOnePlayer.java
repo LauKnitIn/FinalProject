@@ -43,7 +43,7 @@ public class PanelOnePlayer extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("resources\\FondoMadera2.jpg").getImage();
+        backgroundImage = new ImageIcon("src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
 
@@ -73,8 +73,8 @@ public class PanelOnePlayer extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon exitIcon = new ImageIcon("resources\\cerrar-sesion.png");
-        ImageIcon homeIcon = new ImageIcon("resources\\home.png");
+        ImageIcon exitIcon = new ImageIcon("src\\co\\edu\\uptc\\resources\\cerrar-sesion.png");
+        ImageIcon homeIcon = new ImageIcon("src\\co\\edu\\uptc\\resources\\home.png");
 
         btnSalir = addButton(exitIcon, 0, 0, e -> System.exit(0));
         btnHome = addButton(homeIcon, 0, 0, e -> showPanelLStar());

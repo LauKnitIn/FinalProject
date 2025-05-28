@@ -97,12 +97,14 @@ public class ClientManager extends Thread {
                         this.game.getPlayerOne().setName(this.playerName);
                     }
                     output.println("Juego iniciado en modo " + this.gameMode + " con dificultad " + difficulty);
+                    // Envía el número de intentos máximos al cliente
+                    output.println("MAX_ATTEMPTS:" + difficulty.getMaxAttempts());
                 } else {
                     output.println("Comando START inválido. Usa: START:modo,dificultad,palabraP1,palabraP2");
                 }
                 output.println("END");
                 break;
-
+                
             case "GUESS":
                 if (parts.length == 2 && this.game != null) {
                     char letter = parts[1].charAt(0);

@@ -30,7 +30,7 @@ public class PanelGameRulesP2 extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }
@@ -63,8 +63,8 @@ public class PanelGameRulesP2 extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon xIcon = new ImageIcon("resources\\image x.png");
-        ImageIcon arrowIcon = new ImageIcon("resources\\image devolver.png");
+        ImageIcon xIcon = new ImageIcon("src\\co\\edu\\uptc\\resources\\image X.png");
+        ImageIcon arrowIcon = new ImageIcon("src\\co\\edu\\uptc\\resources\\image devolver.png");
 
         btnCerrar = addButton(xIcon, 0, 30, e -> showPanelStart());
         btnRetroceder = addButton(arrowIcon, 0, 635, e -> showPanelGameRules());

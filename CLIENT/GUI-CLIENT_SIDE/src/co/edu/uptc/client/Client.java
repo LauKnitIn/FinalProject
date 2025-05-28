@@ -15,27 +15,28 @@ public class Client {
     private static int maxIntentos = 10;
 
     public static String leerRespuesta(BufferedReader input) {
-    String response = "";
-    String fullResponse = "";
-    try {
-        while (!(response = input.readLine()).equals("END")) {
-            System.out.println(">> Servidor: " + response);
-            fullResponse += response;
-            if (response.startsWith("MAX_ATTEMPTS:")) {
-                String num = response.substring("MAX_ATTEMPTS:".length());
-                try {
-                    Client.maxIntentos = Integer.parseInt(num.trim());
-                } catch (NumberFormatException e) {
-                    Client.maxIntentos = 10;
+        String response = "";
+        String fullResponse = "";
+        try {
+            while (!(response = input.readLine()).equals("END")) {
+                System.out.println(">> Servidor: " + response);
+                fullResponse += response;
+                if (response.startsWith("MAX_ATTEMPTS:")) {
+                    String num = response.substring("MAX_ATTEMPTS:".length());
+                    try {
+                        Client.maxIntentos = Integer.parseInt(num.trim());
+                    } catch (NumberFormatException e) {
+                        Client.maxIntentos = 10;
+                    }
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
+        System.out.println("RESPONDE :" + response);
+        return fullResponse;
     }
-    System.out.println("RESPONDE :" + response);
-    return fullResponse;
-}
+
     public int getMaxIntentos() {
         return maxIntentos;
     }
@@ -103,22 +104,31 @@ public class Client {
             while (!(responseLine = input.readLine()).equals("END")) {
                 System.out.println(">> Servidor: " + responseLine);
                 if (responseLine.startsWith("INTENTOS:")) {
-                    // Extrae el número de intentos restantes
                     String num = responseLine.substring("INTENTOS:".length());
                     try {
                         intentosRestantes = Integer.parseInt(num.trim());
                     } catch (NumberFormatException e) {
                         intentosRestantes = -1;
                     }
-                } else if (!responseLine.startsWith("Juego terminado")) {
-                    // Asume que la línea de progreso no empieza con INTENTOS ni "Juego terminado"
+                } else if (responseLine.startsWith("Juego terminado")) {
+                    // Aquí puedes mostrar el mensaje en la GUI
+                    final String respCopy = responseLine;
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        if (respCopy.contains("null")) {
+                            javax.swing.JOptionPane.showMessageDialog(null, "¡Has perdido!", "Juego terminado",
+                                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            javax.swing.JOptionPane.showMessageDialog(null, "¡Felicidades, ganaste!", "Juego terminado",
+                                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    });
+                } else {
                     progress = responseLine;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // Notifica a la vista el número de intentos restantes
         if (listener != null) {
             listener.onIntentosRestantes(intentosRestantes);
         }
