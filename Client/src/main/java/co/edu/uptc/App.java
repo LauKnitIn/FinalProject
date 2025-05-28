@@ -16,6 +16,6 @@ public class App {
         view.setPresenter(presenter);
         model.setPresenter(presenter);
         model.initSocket();
-        
+        System.out.println("cliente conectado");
     }
 }
