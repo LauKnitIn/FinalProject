@@ -107,19 +107,19 @@ public class ClientManager extends Thread {
                 if (parts.length == 2 && this.game != null) {
                     char letter = parts[1].charAt(0);
                     System.out.println(letter + "LETRA");
-                    boolean correct = this.game.processGuess(letter);
+                    this.game.processGuess(letter);
                     String progress = this.game.getPlayerProgress();
                     String palabra = this.game.getPlayerOne().getWordToGuess().getValue();
                     System.out.println("PALABRA --> " + palabra);
-                    String message = "";
-                    if (correct) {
+                    /*if (correct) {
                         message = "Correcto";
                     } else {
                         message = "Incorrecto";
-                    }
-                    output.println(/*(message) + " Progreso: " + */progress);
+                    }*/
+                    System.out.println(progress + " PROGRESS SERVER SIDE");
+                    output.println(progress);
                     if (game.isFinished()) {
-                        output.println("Juego terminado. ¿Ganaste?: " + this.game.getWinner());
+                        //output.println("Juego terminado. ¿Ganaste?: " + this.game.getWinner());
                     }
                 } else {
                     output.println("No se puede adivinar letra. ¿Iniciaste el juego?");

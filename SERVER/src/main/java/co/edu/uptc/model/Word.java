@@ -64,6 +64,7 @@ public class Word {
                 auxSb.append("_ ");
             }
         }
+        System.out.println();
         return auxSb.toString().trim();
     }
 
