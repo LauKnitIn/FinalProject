@@ -21,7 +21,7 @@ public class PanelLoginName extends JPanel {
 
     private Image backgroundImage;
     private JLabel titleLabel;
-    private RoundedTextField nameTextField;
+    private RoundedTextField nameField;
     private RoundedButton continuarButton;
 
     public PanelLoginName() {
@@ -60,41 +60,40 @@ public class PanelLoginName extends JPanel {
         return label;
     }
 
-    private void addOptions() {// MOD para enviar nombre al cliente
-        RoundedTextField nameField = addTextField("  _______________________________  ", 330, 350, e -> {
-        });
-        addButton("Continuar", 480, 500, e -> {
+    private void addOptions() {//MOD para enviar nombre al cliente
+        nameField = addTextField("  _______________________________  ", 0, 350, e -> {});
+        continuarButton = addButton("Continuar", 480, 500, e -> {
             String name = nameField.getText().trim();
             if (!(name.isEmpty())) {
                 System.out.println("NOMBRE INGRESADO -> " + name);
-                ((View) SwingUtilities.getWindowAncestor(PanelLoginName.this)).getClient().sendName(name);// enviar
-                                                                                                          // nombre
+                ((View)SwingUtilities.getWindowAncestor(PanelLoginName.this)).getClient().sendName(name);//enviar nombre
                 showPanelDifficulty();
             }
-
+            
         });
     }
 
-    private RoundedButton addButton(String text, int x, int y, ActionListener actionListener) {
-        RoundedButton button = new RoundedButton(text, 20);
-        button.setBounds(x, y, 370, 70);
-        button.setBackground(ColorPalette.COLOR_BUTTON);
-        button.setForeground(Color.WHITE);
-        button.setFont(FontPalette.BUTTON_2_FONT);
-        button.addActionListener(actionListener);
-        add(button);
-        return button;
-    }
+private RoundedButton addButton(String text, int x, int y, ActionListener actionListener) {
+    RoundedButton button = new RoundedButton(text, 20);
+    button.setBounds(x, y, 370, 70);
+    button.setBackground(ColorPalette.COLOR_BUTTON);
+    button.setForeground(Color.WHITE);
+    button.setFont(FontPalette.BUTTON_2_FONT);
+    button.addActionListener(actionListener);
+    add(button);
+    return button;
+}
 
-    private RoundedTextField addTextField(String text, int x, int y, ActionListener actionListener) {
-        RoundedTextField textField = new RoundedTextField(1, 30, 30, text);
-        textField.setBounds(x, y, 650, 70);
-        textField.setFont(FontPalette.TEXTFIELD_FONT);
-        textField.setBackground(ColorPalette.COLOR_TEXTFIELD);
-        textField.setForeground(Color.WHITE);
-        add(textField);
-        return textField;
-    }
+private RoundedTextField addTextField(String text, int x, int y, ActionListener actionListener) {
+    RoundedTextField textField = new RoundedTextField(1, 30, 30, text);
+    textField.setBounds(x, y, 650, 70);
+    textField.setFont(FontPalette.TEXTFIELD_FONT);
+    textField.setBackground(ColorPalette.COLOR_TEXTFIELD);
+    textField.setForeground(Color.WHITE);
+    add(textField);
+    return textField;
+}
+
 
     public void showPanelDifficulty() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelLoginName.this);
@@ -104,32 +103,32 @@ public class PanelLoginName extends JPanel {
     }
 
     @Override
-    public void doLayout() {
-        super.doLayout();
-        if (titleLabel != null) {
-            int panelWidth = getWidth();
-            int labelWidth = titleLabel.getWidth();
-            int yPosition = titleLabel.getY();
-            int labelHeight = titleLabel.getHeight();
-            int xPosition = (panelWidth - labelWidth) / 2;
-            titleLabel.setBounds(xPosition, yPosition, labelWidth, labelHeight);
-        }
-        if (nameTextField != null) {
-            int panelWidth = getWidth();
-            int fieldWidth = nameTextField.getWidth();
-            int yPosition = nameTextField.getY();
-            int fieldHeight = nameTextField.getHeight();
-            int xPosition = (panelWidth - fieldWidth) / 2;
-            nameTextField.setBounds(xPosition, yPosition, fieldWidth, fieldHeight);
-        }
-        if (continuarButton != null) {
-            int panelWidth = getWidth();
-            int btnWidth = continuarButton.getWidth();
-            int yPosition = continuarButton.getY();
-            int btnHeight = continuarButton.getHeight();
-            int xPosition = (panelWidth - btnWidth) / 2;
-            continuarButton.setBounds(xPosition, yPosition, btnWidth, btnHeight);
-        }
+public void doLayout() {
+    super.doLayout();
+    if (titleLabel != null) {
+        int panelWidth = getWidth();
+        int labelWidth = titleLabel.getWidth();
+        int yPosition = titleLabel.getY();
+        int labelHeight = titleLabel.getHeight();
+        int xPosition = (panelWidth - labelWidth) / 2;
+        titleLabel.setBounds(xPosition, yPosition, labelWidth, labelHeight);
     }
+    if (nameField != null) {
+        int panelWidth = getWidth();
+        int fieldWidth = nameField.getWidth();
+        int yPosition = nameField.getY();
+        int fieldHeight = nameField.getHeight();
+        int xPosition = (panelWidth - fieldWidth) / 2;
+        nameField.setBounds(xPosition, yPosition, fieldWidth, fieldHeight);
+    }
+    if (continuarButton != null) {
+        int panelWidth = getWidth();
+        int btnWidth = continuarButton.getWidth();
+        int yPosition = continuarButton.getY();
+        int btnHeight = continuarButton.getHeight();
+        int xPosition = (panelWidth - btnWidth) / 2;
+        continuarButton.setBounds(xPosition, yPosition, btnWidth, btnHeight);
+    }
+}
 
 }
