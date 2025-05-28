@@ -12,20 +12,32 @@ public class Client {
     Socket socket;
     BufferedReader input;
     PrintWriter output;
+    private static int maxIntentos = 10;
 
     public static String leerRespuesta(BufferedReader input) {
-        String response = "";
-        String fullResponse = "";
-        try {
-            while (!(response = input.readLine()).equals("END")) {
-                System.out.println(">> Servidor: " + response);
-                fullResponse += response;
+    String response = "";
+    String fullResponse = "";
+    try {
+        while (!(response = input.readLine()).equals("END")) {
+            System.out.println(">> Servidor: " + response);
+            fullResponse += response;
+            if (response.startsWith("MAX_ATTEMPTS:")) {
+                String num = response.substring("MAX_ATTEMPTS:".length());
+                try {
+                    Client.maxIntentos = Integer.parseInt(num.trim());
+                } catch (NumberFormatException e) {
+                    Client.maxIntentos = 10;
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        System.out.println("RESPONDE :" + response);
-        return fullResponse;
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    System.out.println("RESPONDE :" + response);
+    return fullResponse;
+}
+    public int getMaxIntentos() {
+        return maxIntentos;
     }
 
     public void createConection() {
@@ -83,8 +95,44 @@ public class Client {
         String command = "GUESS ";
         String fullCommand = command + letter.toUpperCase();
         output.println(fullCommand);
-        String res = leerRespuesta(input);
-        return res;
+
+        String responseLine;
+        String progress = "";
+        int intentosRestantes = -1;
+        try {
+            while (!(responseLine = input.readLine()).equals("END")) {
+                System.out.println(">> Servidor: " + responseLine);
+                if (responseLine.startsWith("INTENTOS:")) {
+                    // Extrae el número de intentos restantes
+                    String num = responseLine.substring("INTENTOS:".length());
+                    try {
+                        intentosRestantes = Integer.parseInt(num.trim());
+                    } catch (NumberFormatException e) {
+                        intentosRestantes = -1;
+                    }
+                } else if (!responseLine.startsWith("Juego terminado")) {
+                    // Asume que la línea de progreso no empieza con INTENTOS ni "Juego terminado"
+                    progress = responseLine;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Notifica a la vista el número de intentos restantes
+        if (listener != null) {
+            listener.onIntentosRestantes(intentosRestantes);
+        }
+        return progress;
+    }
+
+    public interface IntentosListener {
+        void onIntentosRestantes(int intentosRestantes);
+    }
+
+    private IntentosListener listener;
+
+    public void setIntentosListener(IntentosListener listener) {
+        this.listener = listener;
     }
 
     public String getPlayerName() {

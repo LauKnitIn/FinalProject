@@ -20,6 +20,7 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
+import co.edu.uptc.client.Client;
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
 
@@ -33,14 +34,28 @@ public class PanelOnePlayer extends JPanel {
     private JButton btnSalir;
     private JButton btnHome;
     private int partesAhorcado = 0;
+    private Client client;
+    private int maxIntentos = 10;
 
-    public PanelOnePlayer() {
+    public PanelOnePlayer(Client client) {
+        this.client = client;
+        this.maxIntentos = client.getMaxIntentos();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         backgroundImage = new ImageIcon("resources\\FondoMadera2.jpg").getImage();
         setLayout(null);
         initComponents();
+
+        client.setIntentosListener(new Client.IntentosListener() {
+            @Override
+            public void onIntentosRestantes(int intentosRestantes) {
+                int errores = maxIntentos - intentosRestantes;
+                int totalPartes = 10;
+                int partesADibujar = (int) Math.ceil((errores * totalPartes) / (double) maxIntentos);
+                setPartesAhorcado(partesADibujar);
+            }
+        });
     }
 
     @Override
@@ -134,24 +149,36 @@ public class PanelOnePlayer extends JPanel {
                 int baseX = getWidth() / 2 - 90;
                 int baseY = 60;
 
-               
-                if (partesAhorcado > 0)g2d.drawLine(baseX, baseY + 300, baseX + 60, baseY + 300); // base del suelo
-                if (partesAhorcado > 1)g2d.drawLine(baseX + 30, baseY + 300, baseX + 30, baseY); // poste vertical
-                if (partesAhorcado > 2)g2d.drawLine(baseX + 30, baseY, baseX + 150, baseY); // barra superior
-                if (partesAhorcado > 3)g2d.drawLine(baseX + 150, baseY, baseX + 150, baseY + 50); // cuerda
-
-                // Dibuja partes del ahorcado según errores
-                if (partesAhorcado > 9) // 1. Cabeza
+                // Identificadores de partes:
+                // 1: base del suelo
+                if (partesAhorcado > 0)
+                    g2d.drawLine(baseX, baseY + 300, baseX + 60, baseY + 300);
+                // 2: poste vertical
+                if (partesAhorcado > 1)
+                    g2d.drawLine(baseX + 30, baseY + 300, baseX + 30, baseY);
+                // 3: barra superior
+                if (partesAhorcado > 2)
+                    g2d.drawLine(baseX + 30, baseY, baseX + 150, baseY);
+                // 4: cuerda
+                if (partesAhorcado > 3)
+                    g2d.drawLine(baseX + 150, baseY, baseX + 150, baseY + 50);
+                // 5: cabeza
+                if (partesAhorcado > 4)
                     g2d.drawOval(baseX + 135, baseY + 50, 30, 30);
-                if (partesAhorcado > 8) // 2. Cuerpo
+                // 6: cuerpo
+                if (partesAhorcado > 5)
                     g2d.drawLine(baseX + 150, baseY + 80, baseX + 150, baseY + 160);
-                if (partesAhorcado > 7) // 3. Brazo izquierdo
+                // 7: brazo izquierdo
+                if (partesAhorcado > 6)
                     g2d.drawLine(baseX + 150, baseY + 110, baseX + 110, baseY + 110);
-                if (partesAhorcado > 6) // 4. Brazo derecho
+                // 8: brazo derecho
+                if (partesAhorcado > 7)
                     g2d.drawLine(baseX + 150, baseY + 110, baseX + 190, baseY + 110);
-                if (partesAhorcado > 5) // 5. Pierna izquierda
+                // 9: pierna izquierda
+                if (partesAhorcado > 8)
                     g2d.drawLine(baseX + 150, baseY + 160, baseX + 120, baseY + 220);
-                if (partesAhorcado > 4) // 6. Pierna derecha
+                // 10: pierna derecha
+                if (partesAhorcado > 9)
                     g2d.drawLine(baseX + 150, baseY + 160, baseX + 180, baseY + 220);
             }
         };
@@ -227,9 +254,21 @@ public class PanelOnePlayer extends JPanel {
     }
 
     private void showPanelLStar() {
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelOnePlayer.this);
-        if (topFrame instanceof View) {
-            ((View) topFrame).showPanelStart();
+    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelOnePlayer.this);
+    if (topFrame instanceof View) {
+        ((View) topFrame).showPanelStart();
+        resetHangman();
+    }
+}
+
+    public void setMaxIntentos(int maxIntentos) {
+        this.maxIntentos = maxIntentos;
+    }
+
+    public void resetHangman() {
+        this.partesAhorcado = 0;
+        if (hangmanPanel != null) {
+            hangmanPanel.repaint();
         }
     }
 

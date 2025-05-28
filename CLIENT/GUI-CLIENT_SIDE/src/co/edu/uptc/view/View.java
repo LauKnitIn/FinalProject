@@ -44,7 +44,7 @@ public class View extends JFrame {
         panelGameRules = new PanelGameRules();
         panelGameRulesP2 = new PanelGameRulesP2();
         panelChooseWord = new PanelChooseWord();
-        panelOnePlayer = new PanelOnePlayer();
+        panelOnePlayer = new PanelOnePlayer(guiClient);
         panelMultiplayer = new PanelMultiplayer();
 
         add(panelStart, BorderLayout.CENTER);
@@ -157,6 +157,7 @@ public class View extends JFrame {
         panelChooseWord.setVisible(false);
         panelOnePlayer.setVisible(true);
         panelMultiplayer.setVisible(false);
+        panelOnePlayer.resetHangman();
         panelOnePlayer.revalidate();
         panelOnePlayer.repaint();
     }
