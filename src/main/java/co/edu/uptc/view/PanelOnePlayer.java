@@ -18,6 +18,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.Toolkit;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
@@ -68,7 +69,7 @@ public class PanelOnePlayer extends JPanel {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
+                Graphics2D g2d = (Graphics2D) g; 
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.setColor(ColorPalette.COLOR_KEYBOARD);
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
@@ -192,6 +193,13 @@ public class PanelOnePlayer extends JPanel {
         button.setBackground(ColorPalette.COLOR_BUTTON);
         button.setForeground(Color.WHITE);
         button.setFont(FontPalette.BUTTON_KERYBOARD_FONT);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+             String value = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().makeGuess(text);
+             wordDisplayPanel.setProgress(value);
+            }
+        });
         return button;
     }
 
