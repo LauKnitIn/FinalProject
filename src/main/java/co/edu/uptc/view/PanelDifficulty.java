@@ -14,7 +14,7 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Toolkit;  
+import java.awt.Toolkit;
 import java.awt.Dimension;
 
 import co.edu.uptc.view.constants.ColorPalette;
@@ -64,22 +64,43 @@ public class PanelDifficulty extends JPanel {
     }
 
     private void addOptions() {
-    difficultyButtons.clear();
-    difficultyButtons.add(addButton("Fácil", 0, 250, e -> showPanelChooseWord()));
-    difficultyButtons.add(addButton("Normal", 0, 370, e -> showPanelChooseWord()));
-    difficultyButtons.add(addButton("Difícil", 0, 480, e -> showPanelChooseWord()));
-    difficultyButtons.add(addButton("Extremo", 0, 590, e -> showPanelChooseWord()));
-}
+        difficultyButtons.clear();
+        addButton("Fácil", 420, 250, e -> sendDifficulty("1"));
+        addButton("Normal", 420, 370, e -> sendDifficulty("2"));
+        addButton("Difícil", 420, 480, e -> sendDifficulty("3"));
+        addButton("Extremo", 420, 590, e -> sendDifficulty("4"));
+    }
 
-    private RoundedButton addButton(String text, int x, int y, ActionListener actionListener) {
-    RoundedButton button = new RoundedButton(text, 20);
-    button.setBounds(x, y, 460, 80);
-    button.setBackground(ColorPalette.COLOR_BUTTON);
-    button.setForeground(Color.WHITE);
-    button.setFont(FontPalette.BUTTON_FONT);
-    button.addActionListener(actionListener);
-    add(button);
-    return button;
+    private String addButton(String text, int x, int y, ActionListener actionListener) {
+        RoundedButton button = new RoundedButton(text, 20);
+        button.setBounds(x, y, 460, 80);
+        button.setBackground(ColorPalette.COLOR_BUTTON);
+        button.setForeground(Color.WHITE);
+        button.setFont(FontPalette.BUTTON_FONT);
+        button.addActionListener(actionListener);
+        add(button);
+        difficultyButtons.add(button);
+        return button.getText().toLowerCase();
+    }
+
+    private void sendDifficulty(String difficulty) {
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (topFrame instanceof View) {
+            boolean isMultiplayer = ((View) topFrame).isMultiplayer();
+            if (!isMultiplayer) {
+                ((View) topFrame).getClient().sendGameData(difficulty, isMultiplayer);
+                showPanelOnePlayer();
+            } else {
+                showPanelChooseWord();
+            }
+        }
+    }
+
+    private void showPanelOnePlayer() {
+    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelDifficulty.this);
+    if (topFrame instanceof View) {
+        ((View) topFrame).showPanelOnePlayer();
+    }
 }
 
     private void showPanelChooseWord() {
@@ -102,13 +123,13 @@ public class PanelDifficulty extends JPanel {
         }
 
         for (RoundedButton button : difficultyButtons) {
-        int panelWidth = getWidth();
-        int btnWidth = button.getWidth();
-        int yPosition = button.getY();
-        int btnHeight = button.getHeight();
-        int xPosition = (panelWidth - btnWidth) / 2;
-        button.setBounds(xPosition, yPosition, btnWidth, btnHeight);
-    }
+            int panelWidth = getWidth();
+            int btnWidth = button.getWidth();
+            int yPosition = button.getY();
+            int btnHeight = button.getHeight();
+            int xPosition = (panelWidth - btnWidth) / 2;
+            button.setBounds(xPosition, yPosition, btnWidth, btnHeight);
+        }
 
     }
 }

@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import co.edu.uptc.client.Client;
 import co.edu.uptc.presenter.Presenter;
 
 public class View extends JFrame {
@@ -17,6 +18,7 @@ public class View extends JFrame {
     private PanelChooseWord panelChooseWord;
     private PanelOnePlayer panelOnePlayer;
     private PanelMultiplayer panelMultiplayer;
+    private Client guiClient;
 
     private boolean isMultiplayer = false;
 
@@ -25,7 +27,6 @@ public class View extends JFrame {
     public View(Presenter presenter) {
         this.presenter = presenter;
         setTitle("El ahorcado");
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setLayout(new BorderLayout());
@@ -36,6 +37,7 @@ public class View extends JFrame {
     }
 
     public void initComponents() {
+        makeConnection();
         panelStart = new PanelStart();
         panelLoginName = new PanelLoginName();
         panelDifficulty = new PanelDifficulty();
@@ -62,6 +64,11 @@ public class View extends JFrame {
         panelChooseWord.setVisible(false);
         panelOnePlayer.setVisible(false);
         panelMultiplayer.setVisible(false);
+    }
+
+    private void makeConnection(){
+        guiClient = new Client();
+        guiClient.createConection();
     }
 
     public void showPanelLoginName() {
@@ -173,5 +180,9 @@ public class View extends JFrame {
 
     public boolean isMultiplayer() {
         return isMultiplayer;
+    }
+
+    public Client getClient(){
+        return this.guiClient;
     }
 }
