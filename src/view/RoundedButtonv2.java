@@ -1,11 +1,17 @@
 package view;
 
 import javax.swing.JButton;
+
+import view.constants.ColorPalette;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import javax.sound.sampled.*;
 
@@ -16,12 +22,7 @@ public class RoundedButtonv2 extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(false);
         setBorderPainted(false);
-        addActionListener(new ActionListener() {
-            @Override 
-            public void actionPerformed (ActionEvent e){
-                playSound("resources\\SonidoHoja.wav");
-            }
-        });
+        buttonEffects();
     }
 
     @Override
@@ -49,21 +50,49 @@ public class RoundedButtonv2 extends JButton {
         g2.dispose();
     }
 
-    public static void playSound(String nombreArchivo) {
-    try {
-        File sound = new File(nombreArchivo);
-        if (!sound.exists()) {
-            System.out.println("Archivo no encontrado: " + sound.getAbsolutePath());
-            return;
+    public void buttonEffects() {
+        if (isEnabled() == false) {
+            setHoverSettings();
         }
-
-        AudioInputStream audio = AudioSystem.getAudioInputStream(sound);
-        Clip clip = AudioSystem.getClip();
-        clip.open(audio);
-        clip.start();
-    } catch (Exception e) {
-        System.out.println("No se pudo reproducir el sonido");
-        e.printStackTrace();
+        addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playSound("resources\\SonidoHoja.wav");
+                setBackground(ColorPalette.COLOR_BUTTON_DISABLED);
+                setEnabled(false);
+            }
+        });
     }
-}
+
+    public void setHoverSettings() {
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(ColorPalette.COLOR_BUTTON_HOVER);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setBackground(ColorPalette.COLOR_BUTTON);
+            }
+        });
+    }
+
+    public static void playSound(String nombreArchivo) {
+        try {
+            File sound = new File(nombreArchivo);
+            if (!sound.exists()) {
+                System.out.println("Archivo no encontrado: " + sound.getAbsolutePath());
+                return;
+            }
+
+            AudioInputStream audio = AudioSystem.getAudioInputStream(sound);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+        } catch (Exception e) {
+            System.out.println("No se pudo reproducir el sonido");
+            e.printStackTrace();
+        }
+    }
 }
