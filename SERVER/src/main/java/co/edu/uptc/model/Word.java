@@ -39,7 +39,6 @@ public class Word {
     }
 
     public Set<String> guessedLetters(char letter){
-        //Añadir excepcion en caso de no tener ninguna
         return this.guessedLetters;
     }
 

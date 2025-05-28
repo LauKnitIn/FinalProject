@@ -20,14 +20,14 @@ public class Game {
     }
 
     private void configGame() {
-        int attempts = chosenDifficulty.getMaxAttempts();
         if (this.gameMode == Mode.ONE_PLAYER) {
             Word assignedWord = getRandomWord();
+            int attempts = chosenDifficulty.calculateMaxAttempts(assignedWord.getValue());
             this.p1 = new Player(attempts);
             this.p1.setWordToGuess(assignedWord);
         } else if (this.gameMode.equals(Mode.MULTIPLAYER)) {
-            this.p1 = new Player(attempts);
-            this.p2 = new Player(attempts);
+            //this.p1 = new Player(attempts);
+            //this.p2 = new Player(attempts);
         }
 
     }
