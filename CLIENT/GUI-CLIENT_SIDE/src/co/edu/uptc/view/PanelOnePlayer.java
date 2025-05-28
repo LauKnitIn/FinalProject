@@ -166,7 +166,8 @@ public class PanelOnePlayer extends JPanel {
         namePanel.setOpaque(false);
         namePanel.setLayout(new BorderLayout());
         namePanel.setBounds(830, 380, 280, 50);
-        //String name = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().getPlayerName().toUpperCase();
+        // String name =
+        // ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().getPlayerName().toUpperCase();
         JLabel nameLabel = new JLabel("TEST", SwingConstants.CENTER);
         nameLabel.setFont(FontPalette.JLABEL_NAME_FONT);
         nameLabel.setForeground(Color.BLACK);
@@ -190,8 +191,11 @@ public class PanelOnePlayer extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             String value = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().makeGuess(text);
-             wordDisplayPanel.setProgress(value);
+                String value = ((View) SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient()
+                        .makeGuess(text);
+                wordDisplayPanel.updateProgress(value);
+                wordDisplayPanel.revalidate();
+                wordDisplayPanel.repaint();
             }
         });
         return button;
