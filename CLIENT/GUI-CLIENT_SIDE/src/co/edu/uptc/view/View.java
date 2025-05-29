@@ -4,11 +4,10 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
 import co.edu.uptc.client.Client;
-import co.edu.uptc.presenter.Presenter;
+import co.edu.uptc.interfaces.Contract;
 
-public class View extends JFrame {
+public class View extends JFrame implements Contract.View {
 
         private PanelStart panelStart;
         private PanelLoginName panelLoginName;
@@ -18,13 +17,10 @@ public class View extends JFrame {
         private PanelChooseWord panelChooseWord;
         private PanelOnePlayer panelOnePlayer;
         private PanelMultiplayer panelMultiplayer;
-        private Client guiClient;
         private boolean isMultiplayer = false;
+        private Contract.Presenter presenter;
 
-        private Presenter presenter;
-
-        public View(Presenter presenter) {
-                this.presenter = presenter;
+        public View() {
                 setTitle("El ahorcado");
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                 setSize(screenSize.width, screenSize.height);
@@ -36,7 +32,6 @@ public class View extends JFrame {
         }
 
         public void initComponents() {
-                makeConnection();
                 panelStart = new PanelStart();
                 panelLoginName = new PanelLoginName();
                 panelDifficulty = new PanelDifficulty();
@@ -65,13 +60,24 @@ public class View extends JFrame {
                 panelMultiplayer.setVisible(false);
         }
 
-        private void makeConnection() {
-                guiClient = new Client();
-                guiClient.createConection();
+
+        public void showPanelLoginName(boolean isEmpty, boolean isAvailable) {
+                panelStart.setVisible(false);
+                panelLoginName.initComponents(isMultiplayer, rootPaneCheckingEnabled);
+                panelLoginName.setVisible(true);
+                panelDifficulty.setVisible(false);
+                panelGameRules.setVisible(false);
+                panelGameRulesP2.setVisible(false);
+                panelChooseWord.setVisible(false);
+                panelOnePlayer.setVisible(false);
+                panelMultiplayer.setVisible(false);
+                panelLoginName.revalidate();
+                panelLoginName.repaint();
         }
 
         public void showPanelLoginName() {
                 panelStart.setVisible(false);
+                panelLoginName.initComponents(isMultiplayer, rootPaneCheckingEnabled);
                 panelLoginName.setVisible(true);
                 panelDifficulty.setVisible(false);
                 panelGameRules.setVisible(false);
@@ -183,8 +189,44 @@ public class View extends JFrame {
                 return isMultiplayer;
         }
 
-        public Client getClient() {
-                return this.guiClient;
+
+        @Override
+        public void setPresenter(Contract.Presenter presenter) {
+                this.presenter = presenter;
+        }
+
+        @Override
+        public void showInterface() {
+                this.presenter.initSocket();
+                System.out.println("GUI mostrada");
+        }
+
+        @Override
+        public void sendCommand(String command) {
+                presenter.sendCommand(command);
+        }
+
+        public String getStatus(String value){
+                return presenter.getStatus(value);
+        }
+
+        public String getPlayerName(){
+                return presenter.getClientName();
+        }
+
+        @Override
+        public boolean isFull() {
+                return this.presenter.isFull();
+        }
+
+        @Override
+        public boolean isEmpty() {
+                return this.presenter.isEmpty();
+        }
+
+        @Override
+        public boolean isAvailable() {
+                return this.presenter.isAvailable();
         }
 
 }

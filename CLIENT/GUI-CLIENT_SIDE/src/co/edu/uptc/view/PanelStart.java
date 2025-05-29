@@ -63,7 +63,20 @@ public class PanelStart extends JPanel {
 
         btnMultijugador = addButton("Multijugador", 0, 500, e -> {
             setGameMode(true);
-            showPanelLoginName();
+           boolean isFull = ((View)SwingUtilities.getWindowAncestor(PanelStart.this)).isFull();
+           boolean isEmpty = ((View)SwingUtilities.getWindowAncestor(PanelStart.this)).isEmpty();
+           boolean isAvailable = ((View)SwingUtilities.getWindowAncestor(PanelStart.this)).isAvailable();
+            if (!(isFull)) {
+                if (isAvailable) {
+                    // no mostrar seleccionr dificultad
+                    showPanelLoginName();
+                }else if(isEmpty){
+                    showPanelLoginName();
+                    // mostrar seleccionar dificultad
+                }
+            }else{
+                //mostrar que la sala esta llena
+            }
         });
         btnInformacion = addButton(informacionIcon, 970, 635, e -> showPanelGameRules());
     }
@@ -106,6 +119,13 @@ public class PanelStart extends JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelStart.this);
         if (topFrame instanceof View) {
             ((View) topFrame).setMultiplayer(isMultiplayer);
+        }
+    }
+
+    private void showPanelLoginName(boolean isEmpty, boolean isAvailable) {
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelStart.this);
+        if (topFrame instanceof View) {
+            ((View) topFrame).showPanelLoginName();
         }
     }
 

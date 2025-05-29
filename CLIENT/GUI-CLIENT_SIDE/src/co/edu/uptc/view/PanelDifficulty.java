@@ -88,7 +88,8 @@ public class PanelDifficulty extends JPanel {
         if (topFrame instanceof View) {
             boolean isMultiplayer = ((View) topFrame).isMultiplayer();
             if (!isMultiplayer) {
-                ((View) topFrame).getClient().sendGameData(difficulty, isMultiplayer);
+                String command = "START ";
+                ((View) topFrame).sendCommand(command + difficulty + " 1");
                 showPanelOnePlayer();
             } else {
                 showPanelChooseWord();

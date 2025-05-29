@@ -79,10 +79,34 @@ public class ClientManager extends Thread {
                 output.println("END");
                 break;
             case "START":
+                if (parts.length == 2) {
+                    int modeValue = Integer.parseInt(parts[1]);
+                    Difficulty difficulty = evlauateDifficulty(parts[2].toUpperCase());
+                    System.out.println(command + " <--- COMAND");
+                    this.gameMode = null;
+                    if (modeValue == 1) {
+                        this.gameMode = Mode.ONE_PLAYER;
+                    } else if (modeValue == 2 && parts.length >= 5) {
+                        this.gameMode = Mode.MULTIPLAYER;
+                        Word word1 = new Word(parts[3]);
+                        Word word2 = new Word(parts[4]);
+                        this.game.assignWordsMultiplayer(word1, word2);
+                    }
+                    this.game = new Game(difficulty, this.gameMode);
+                    if (modeValue == 1) {
+                        this.game.getPlayerOne().setName(this.playerName);
+                    }
+                    output.println("Juego iniciado en modo " + this.gameMode + " con dificultad " + difficulty);
+                } else {
+                    output.println("Comando START inválido. Usa: START:modo,dificultad,palabraP1,palabraP2");
+                }
+                output.println("END");
+                break;
+             case "STARTM":
                 if (parts.length >= 3) {
                     int modeValue = Integer.parseInt(parts[1]);
                     Difficulty difficulty = evlauateDifficulty(parts[2].toUpperCase());
-
+                    System.out.println(command + " <--- COMAND");
                     this.gameMode = null;
                     if (modeValue == 1) {
                         this.gameMode = Mode.ONE_PLAYER;
@@ -122,6 +146,7 @@ public class ClientManager extends Thread {
                     output.println(progress);
                     if (game.isFinished()) {
                         // output.println("Juego terminado. ¿Ganaste?: " + this.game.getWinner());
+                        serverInstance.removeSinglePlayer(this);
                     }
                 } else {
                     output.println("No se puede adivinar letra. ¿Iniciaste el juego?");
@@ -136,6 +161,18 @@ public class ClientManager extends Thread {
                 } else {
                     output.println("No has iniciado un juego todavía.");
                 }
+                output.println("END");
+                break;
+            case "FULL":
+                String response = "-1";
+                if (this.serverInstance.isMultiplayerFull()) {
+                    response = "FULL";
+                } else if (this.serverInstance.isMultiplayerEmpty()) {
+                    response = "EMPTY";
+                } else if (this.serverInstance.isAvailable()) {
+                    response = "DISPO";
+                }
+                output.println(response);
                 output.println("END");
                 break;
 

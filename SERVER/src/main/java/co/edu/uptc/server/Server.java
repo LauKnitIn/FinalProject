@@ -3,6 +3,7 @@ package co.edu.uptc.server;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Server {
@@ -11,6 +12,8 @@ public class Server {
     public int PORT = 12345;
     private int nClient = 0;
     public static List<ClientManager> connectedClients = new ArrayList<>();
+    public static List<ClientManager> singlePlayers = Collections.synchronizedList(new ArrayList<>());
+    public static List<ClientManager> multiplayers = Collections.synchronizedList(new ArrayList<>());
 
     public void start() {
         try {
@@ -25,7 +28,7 @@ public class Server {
                 ClientManager clientManager = new ClientManager(clientSocket, nClient, this);
                 connectedClients.add(clientManager);
 
-                clientManager.start();  // Inicia hilo para atender al cliente
+                clientManager.start(); // Inicia hilo para atender al cliente
             }
 
         } catch (Exception e) {
@@ -41,8 +44,36 @@ public class Server {
         System.out.println("Cliente " + clientManager.getClientId() + " desconectado.");
     }
 
+    public synchronized void removeSinglePlayer(ClientManager clientManager){
+        singlePlayers.remove(clientManager);
+    }
+
     public List<ClientManager> getConnectedClients() {
         return connectedClients;
+    }
+
+    public boolean isMultiplayerFull() {
+        boolean isFull = false;
+        if (this.multiplayers.size() >= 2) {
+            isFull = true;
+        }
+        return isFull;
+    }
+
+    public boolean isMultiplayerEmpty() {
+        boolean isEmpty = false;
+        if (this.multiplayers.size() == 0) {
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
+
+    public boolean isAvailable() {
+        boolean isFull = false;
+        if (this.multiplayers.size() == 1) {
+            isFull = true;
+        }
+        return isFull;
     }
 
     public void stop() {

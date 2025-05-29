@@ -30,7 +30,7 @@ public class PanelLoginName extends JPanel {
         backgroundImage = new ImageIcon("resources\\FondoMenus.png").getImage();
 
         setLayout(null);
-        initComponents();
+        //initComponents();
     }
 
     @Override
@@ -39,7 +39,12 @@ public class PanelLoginName extends JPanel {
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
     }
 
-    private void initComponents() {
+    public void initComponents(boolean isEmpty, boolean isAvailable) {
+        addTitle();
+        addOptions(isEmpty, isAvailable);
+    }
+
+     public void initComponents( ) {
         addTitle();
         addOptions();
     }
@@ -60,6 +65,26 @@ public class PanelLoginName extends JPanel {
         return label;
     }
 
+    private void addOptions(boolean isEmpty, boolean isAvailable) {// MOD para enviar nombre al cliente
+        nameField = addTextField("  _______________________________  ", 0, 350, e -> {
+        });
+        continuarButton = addButton("Continuar", 480, 500, e -> {
+            String name = nameField.getText().trim();
+            if (!(name.isEmpty())) {
+                System.out.println("NOMBRE INGRESADO -> " + name);
+                String comando = "NAME ";
+                ((View) SwingUtilities.getWindowAncestor(PanelLoginName.this)).sendCommand(comando + name);// enviar
+                if (isEmpty) {
+                    showPanelDifficulty();    
+                }else if(isAvailable){
+                    //panel seleccionar palabras
+                   ((View)(SwingUtilities.getWindowAncestor(PanelLoginName.this))).showPanelChooseWord();
+                }                                                                          // nombre
+            }
+
+        });
+    }
+
     private void addOptions() {// MOD para enviar nombre al cliente
         nameField = addTextField("  _______________________________  ", 0, 350, e -> {
         });
@@ -67,8 +92,8 @@ public class PanelLoginName extends JPanel {
             String name = nameField.getText().trim();
             if (!(name.isEmpty())) {
                 System.out.println("NOMBRE INGRESADO -> " + name);
-                ((View) SwingUtilities.getWindowAncestor(PanelLoginName.this)).getClient().sendName(name);// enviar
-                                                                                                          // nombre
+                String comando = "NAME ";
+                ((View) SwingUtilities.getWindowAncestor(PanelLoginName.this)).sendCommand(comando + name);// enviar                                                                          // nombre
                 showPanelDifficulty();
             }
 

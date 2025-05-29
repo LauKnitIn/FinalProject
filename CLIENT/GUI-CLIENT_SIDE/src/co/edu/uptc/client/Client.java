@@ -28,6 +28,36 @@ public class Client {
         return fullResponse;
     }
 
+    public boolean isFull(){
+        boolean isFull = false;
+        output.println("FULL ");
+        String value = leerRespuesta(input);
+        if (value.equals("FULL")) {
+            isFull = true;
+        }
+        return isFull;
+    }
+
+    public boolean isEmpty(){
+        boolean isFull = false;
+        output.println("FULL ");
+        String value = leerRespuesta(input);
+        if (value.equals("EMPTY")) {
+            isFull = true;
+        }
+        return isFull;
+    }
+
+    public boolean isAvailable(){
+        boolean isFull = false;
+        output.println("FULL ");
+        String value = leerRespuesta(input);
+        if (value.equals("DISPO")) {
+            isFull = true;
+        }
+        return isFull;
+    }
+
     public void createConection() {
         try {
             this.socket = new Socket(SERVIDOR, PUERTO);

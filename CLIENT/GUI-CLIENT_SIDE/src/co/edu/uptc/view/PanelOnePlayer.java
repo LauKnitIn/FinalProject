@@ -183,7 +183,7 @@ public class PanelOnePlayer extends JPanel {
         namePanel.setOpaque(false);
         namePanel.setLayout(new BorderLayout());
         namePanel.setBounds(830, 380, 280, 50);
-        String value = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().getPlayerName();
+        String value = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getPlayerName();
         JLabel nameLabel = new JLabel(value, SwingConstants.CENTER);
         nameLabel.setFont(FontPalette.JLABEL_NAME_FONT);
         nameLabel.setForeground(Color.BLACK);
@@ -195,7 +195,7 @@ public class PanelOnePlayer extends JPanel {
     public void addWordDisplayPanel() {
         wordDisplayPanel = new WordDisplayPanel();
         wordDisplayPanel.setBounds(730, 250, 800, 70);
-        wordDisplayPanel.setProgress(((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().makeGuess("_"));
+        wordDisplayPanel.setProgress(((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getStatus("_"));
         add(wordDisplayPanel);
     }
 
@@ -208,7 +208,7 @@ public class PanelOnePlayer extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             String value = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getClient().makeGuess(text);
+             String value = ((View)SwingUtilities.getWindowAncestor(PanelOnePlayer.this)).getStatus(text);
              System.out.println(value);
              wordDisplayPanel.setProgress(value);
             }
