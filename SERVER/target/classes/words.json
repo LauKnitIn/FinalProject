@@ -1,0 +1,6 @@
+{
+    "EASY":["test","easy"],
+    "NORMAL":["test","normal"],
+    "DIFFICULT":["test","hard"],
+    "EXTREME":["test","extreme"]
+}
