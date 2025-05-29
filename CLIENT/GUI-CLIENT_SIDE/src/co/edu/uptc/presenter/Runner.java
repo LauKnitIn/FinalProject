@@ -9,4 +9,5 @@ public class Runner {
         Presenter presenter = new Presenter(view);
         view.setVisible(true);
     }
+    
 }

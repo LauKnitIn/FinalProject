@@ -158,6 +158,7 @@ public class View extends JFrame {
         panelOnePlayer.setVisible(true);
         panelMultiplayer.setVisible(false);
         panelOnePlayer.resetHangman();
+        panelOnePlayer.resetKeyboardButtons();
         panelOnePlayer.revalidate();
         panelOnePlayer.repaint();
     }

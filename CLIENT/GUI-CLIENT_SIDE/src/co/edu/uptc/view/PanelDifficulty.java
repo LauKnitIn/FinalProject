@@ -30,7 +30,7 @@ public class PanelDifficulty extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }

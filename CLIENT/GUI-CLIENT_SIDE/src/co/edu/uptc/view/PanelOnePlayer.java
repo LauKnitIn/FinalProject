@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.Component;
 
 import co.edu.uptc.client.Client;
 import co.edu.uptc.view.constants.ColorPalette;
@@ -43,7 +44,7 @@ public class PanelOnePlayer extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("src\\co\\edu\\uptc\\resources\\FondoMadera2.jpg").getImage();
+        backgroundImage = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\FondoMadera2.jpg").getImage();
         setLayout(null);
         initComponents();
 
@@ -73,8 +74,8 @@ public class PanelOnePlayer extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon exitIcon = new ImageIcon("src\\co\\edu\\uptc\\resources\\cerrar-sesion.png");
-        ImageIcon homeIcon = new ImageIcon("src\\co\\edu\\uptc\\resources\\home.png");
+        ImageIcon exitIcon = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\cerrar-sesion.png");
+        ImageIcon homeIcon = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\home.png");
 
         btnSalir = addButton(exitIcon, 0, 0, e -> System.exit(0));
         btnHome = addButton(homeIcon, 0, 0, e -> showPanelLStar());
@@ -269,6 +270,19 @@ public class PanelOnePlayer extends JPanel {
         this.partesAhorcado = 0;
         if (hangmanPanel != null) {
             hangmanPanel.repaint();
+        }
+        resetKeyboardButtons(); 
+    }
+
+    void resetKeyboardButtons() {
+        if (keyboardBackground != null) {
+            for (Component comp : keyboardBackground.getComponents()) {
+                if (comp instanceof RoundedButtonv2) {
+                    RoundedButtonv2 btn = (RoundedButtonv2) comp;
+                    btn.setEnabled(true);
+                    btn.setBackground(co.edu.uptc.view.constants.ColorPalette.COLOR_BUTTON);
+                }
+            }
         }
     }
 

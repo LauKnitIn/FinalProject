@@ -28,7 +28,7 @@ public class PanelLoginName extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }
@@ -66,7 +66,7 @@ public class PanelLoginName extends JPanel {
             String name = nameField.getText().trim();
             if (!(name.isEmpty())) {
                 System.out.println("NOMBRE INGRESADO -> " + name);
-                ((View)SwingUtilities.getWindowAncestor(PanelLoginName.this)).getClient().sendName(name);//enviar nombre
+                ((View)SwingUtilities.getWindowAncestor(PanelLoginName.this)).getClient().sendName(name);
                 showPanelDifficulty();
             }
             
