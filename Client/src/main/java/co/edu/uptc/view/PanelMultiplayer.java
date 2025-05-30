@@ -13,6 +13,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
@@ -25,11 +27,13 @@ public class PanelMultiplayer extends JPanel {
     private JPanel opponentHangmanPanel;
     private WordDisplayPanel wordDisplayPanel;
     private WordDisplayPanel opponentWordDisplayPanel;
+    private JPanel namePanel;
 
     public PanelMultiplayer() {
-        setSize(1300, 800);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMadera2.jpg").getImage();
+        backgroundImage = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\FondoMadera2.jpg").getImage();
         setLayout(null);
         initComponents();
     }
@@ -143,7 +147,7 @@ public class PanelMultiplayer extends JPanel {
     }
 
     private void addPlayerNamePanel() {
-        JPanel namePanel = new JPanel() {
+        namePanel = new JPanel() { 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -225,5 +229,56 @@ public class PanelMultiplayer extends JPanel {
         button.setFont(FontPalette.BUTTON_KERYBOARD_FONT);
         return button;
     }
+
+    @Override
+public void doLayout() {
+    super.doLayout();
+
+    int panelWidth = getWidth();
+    int panelHeight = getHeight();
+
+    int kbWidth = 570;
+    int kbHeight = 200;
+    int hangmanWidth = 600;
+    int hangmanHeight = 450;
+    int opponentWidth = 550;
+    int opponentHeight = 350;
+    
+    int hangmanX = 100;
+    int hangmanY = (panelHeight - hangmanHeight) / 2 - 100;
+    if (hangmanPanel != null) {
+        hangmanPanel.setBounds(hangmanX, hangmanY, hangmanWidth, hangmanHeight);
+    }
+
+    if (opponentHangmanPanel != null) {
+        int x = panelWidth - opponentWidth - 155;
+        int y = 87;
+        opponentHangmanPanel.setBounds(x, y, opponentWidth, opponentHeight);
+    }
+
+    int kbX = panelWidth - kbWidth - 150;
+    int kbY = panelHeight - kbHeight - 100;
+    if (keyboardBackground != null) {
+        keyboardBackground.setBounds(kbX, kbY, kbWidth, kbHeight);
+    }
+
+    
+    if (namePanel != null && keyboardBackground != null) {
+        int npWidth = namePanel.getWidth();
+        int npHeight = namePanel.getHeight();
+        int npX = kbX + (kbWidth - npWidth) / 2;
+        int npY = kbY - npHeight - 20; 
+        namePanel.setBounds(npX, npY, npWidth, npHeight);
+    }
+
+   
+    if (wordDisplayPanel != null && hangmanPanel != null) {
+        int wdpWidth = wordDisplayPanel.getWidth();
+        int wdpHeight = wordDisplayPanel.getHeight();
+        int wdpX = hangmanX + (hangmanWidth - wdpWidth) / 2 + 160;
+        int wdpY = hangmanY + hangmanHeight + 60; 
+        wordDisplayPanel.setBounds(wdpX, wdpY, wdpWidth, wdpHeight);
+    }
+}
 
 }

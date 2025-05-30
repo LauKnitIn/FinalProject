@@ -13,17 +13,24 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 
 import co.edu.uptc.view.constants.FontPalette;
 
 public class PanelGameRules extends JPanel {
 
     private Image backgroundImage;
+    private JLabel titleLabel;
+    private JTextArea rulesTextArea;
+    private JButton btnCerrar;
+    private JButton btnAvanzar;
 
     public PanelGameRules() {
-        setSize(1300, 800);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize.width, screenSize.height);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        backgroundImage = new ImageIcon("frontend-proyecto\\resources\\FondoMenus.png").getImage();
+        backgroundImage = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
         setLayout(null);
         initComponents();
     }
@@ -40,13 +47,11 @@ public class PanelGameRules extends JPanel {
     }
 
     private void addTitle() {
-        int frameWidth = 1300;
         int labelWidth = 1000;
         int labelHeight = 70;
-        int xPosition = (frameWidth - labelWidth) / 2;
-
-        JLabel title = createLabel("Reglas de Juego", xPosition, 150, labelWidth, labelHeight);
-        add(title);
+        int yPosition = 150;
+        titleLabel = createLabel("Reglas de Juego", 0, yPosition, labelWidth, labelHeight);
+        add(titleLabel);
     }
 
     private JLabel createLabel(String text, int x, int y, int width, int height) {
@@ -58,11 +63,11 @@ public class PanelGameRules extends JPanel {
     }
 
     private void addOptions() {
-        ImageIcon xIcon = new ImageIcon("frontend-proyecto\\resources\\image x.png");
-        ImageIcon arrowIcon = new ImageIcon("frontend-proyecto\\resources\\image avanzar.png");
+        ImageIcon xIcon = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\image X.png");
+        ImageIcon arrowIcon = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\image avanzar.png");
 
-        addButton(xIcon, 0, 30, e -> showPanelStart());
-        addButton(arrowIcon, 900, 635, e -> showPanelGameRulesP2());
+        btnCerrar = addButton(xIcon, 0, 30, e -> showPanelStart());
+        btnAvanzar = addButton(arrowIcon, 0, 635, e -> showPanelGameRulesP2());
 
         addTextArea("Solitario: Selecciona el modo \"Solitario\".\n" +
                 "• Se abrirá un panel de dificultad. Elige la dificultad deseada,\n" +
@@ -82,7 +87,7 @@ public class PanelGameRules extends JPanel {
                 "  el ahorcado.");
     }
 
-    private void addButton(ImageIcon icon, int x, int y, ActionListener actionListener) {
+    private JButton addButton(ImageIcon icon, int x, int y, ActionListener actionListener) {
         JButton button = new JButton();
         button.setBounds(x, y, 150, 80);
         button.setIcon(icon);
@@ -91,20 +96,24 @@ public class PanelGameRules extends JPanel {
         button.setBorderPainted(false);
         button.addActionListener(actionListener);
         add(button);
+        return button;
     }
 
     private void addTextArea(String text) {
-        JTextArea textArea = new JTextArea(text);
-        textArea.setBounds(280, 260, 950, 350);
-        textArea.setFont(FontPalette.TEXTAREA_FONT);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true); 
-        textArea.setEditable(false); 
-        textArea.setOpaque(false); 
-        textArea.setBorder(null); 
-        textArea.setForeground(Color.BLACK);
+        int areaWidth = 950;
+        int areaHeight = 380;
+        int yPosition = 260;
+        rulesTextArea = new JTextArea(text);
+        rulesTextArea.setBounds(0, yPosition, areaWidth, areaHeight);
+        rulesTextArea.setFont(FontPalette.TEXTAREA_FONT);
+        rulesTextArea.setLineWrap(true);
+        rulesTextArea.setWrapStyleWord(true);
+        rulesTextArea.setEditable(false);
+        rulesTextArea.setOpaque(false);
+        rulesTextArea.setBorder(null);
+        rulesTextArea.setForeground(Color.BLACK);
 
-        add(textArea);
+        add(rulesTextArea);
     }
 
     private void showPanelStart() {
@@ -118,6 +127,36 @@ public class PanelGameRules extends JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelGameRules.this);
         if (topFrame instanceof View) {
             ((View) topFrame).showPanelGameRulesP2();
+        }
+    }
+
+    @Override
+    public void doLayout() {
+        super.doLayout();
+        if (titleLabel != null) {
+            int panelWidth = getWidth();
+            int labelWidth = titleLabel.getWidth();
+            int yPosition = titleLabel.getY();
+            int labelHeight = titleLabel.getHeight();
+            int xPosition = (panelWidth - labelWidth) / 2;
+            titleLabel.setBounds(xPosition, yPosition, labelWidth, labelHeight);
+        }
+        if (rulesTextArea != null) {
+            int panelWidth = getWidth();
+            int areaWidth = rulesTextArea.getWidth();
+            int yPosition = rulesTextArea.getY();
+            int areaHeight = rulesTextArea.getHeight();
+            int xPosition = (panelWidth - areaWidth) / 2;
+            rulesTextArea.setBounds(xPosition, yPosition, areaWidth, areaHeight);
+        }
+        
+        if (btnCerrar != null) {
+            btnCerrar.setBounds(30, 30, 150, 80);
+        }
+        
+        if (btnAvanzar != null) {
+            int panelWidth = getWidth();
+            btnAvanzar.setBounds(panelWidth - 150 - 250, 635, 150, 80);
         }
     }
 
