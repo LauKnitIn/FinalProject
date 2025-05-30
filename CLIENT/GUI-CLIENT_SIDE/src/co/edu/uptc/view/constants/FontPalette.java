@@ -6,6 +6,8 @@ public class FontPalette {
     public static Font BUTTON_FONT = new Font("Courier New", Font.PLAIN, 70);
     public static Font BUTTON_2_FONT = new Font("Courier New", Font.PLAIN, 60);
     public static Font BUTTON_3_FONT = new Font("Courier New", Font.PLAIN, 80);
+    public static Font BUTTON_BACK_TO_MENU_FONT = new Font("Courier New", Font.BOLD, 40);
+    public static Font BUTTON_WIN_DEFEAT_FONT = new Font("Courier New", Font.BOLD, 34);
     public static Font BUTTON_KERYBOARD_FONT = new Font("Courier New", Font.PLAIN, 25);
 
     public static Font TITLE_FONT = new Font("Courier New", Font.PLAIN, 90);

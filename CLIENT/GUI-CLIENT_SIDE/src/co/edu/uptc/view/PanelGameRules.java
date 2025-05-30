@@ -1,5 +1,8 @@
 package co.edu.uptc.view;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -8,14 +11,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Dimension;
 
+import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
 
 public class PanelGameRules extends JPanel {
@@ -95,6 +104,23 @@ public class PanelGameRules extends JPanel {
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
         button.addActionListener(actionListener);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playSound("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\SonidoHoja.wav");
+            }
+        });
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(ColorPalette.COLOR_BUTTON_HOVER);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setBackground(ColorPalette.COLOR_BUTTON);
+            }
+        });
         add(button);
         return button;
     }
@@ -157,6 +183,24 @@ public class PanelGameRules extends JPanel {
         if (btnAvanzar != null) {
             int panelWidth = getWidth();
             btnAvanzar.setBounds(panelWidth - 150 - 250, 635, 150, 80);
+        }
+    }
+
+    public static void playSound(String nombreArchivo) {
+        try {
+            File sound = new File(nombreArchivo);
+            if (!sound.exists()) {
+                System.out.println("Archivo no encontrado: " + sound.getAbsolutePath());
+                return;
+            }
+
+            AudioInputStream audio = AudioSystem.getAudioInputStream(sound);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+        } catch (Exception e) {
+            System.out.println("No se pudo reproducir el sonido");
+            e.printStackTrace();
         }
     }
 

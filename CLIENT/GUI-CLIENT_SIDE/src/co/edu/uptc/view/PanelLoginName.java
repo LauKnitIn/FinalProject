@@ -30,7 +30,6 @@ public class PanelLoginName extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         backgroundImage = new ImageIcon("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\FondoMenus.png").getImage();
         setLayout(null);
-        initComponents();
     }
 
     @Override
@@ -39,7 +38,7 @@ public class PanelLoginName extends JPanel {
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
     }
 
-    private void initComponents() {
+    public void initComponents() {
         addTitle();
         addOptions();
     }
@@ -60,16 +59,18 @@ public class PanelLoginName extends JPanel {
         return label;
     }
 
-    private void addOptions() {//MOD para enviar nombre al cliente
-        nameField = addTextField("  _______________________________  ", 0, 350, e -> {});
+    private void addOptions() {// MOD para enviar nombre al cliente
+        nameField = addTextField("  _______________________________  ", 0, 350, e -> {
+        });
         continuarButton = addButton("Continuar", 480, 500, e -> {
             String name = nameField.getText().trim();
             if (!(name.isEmpty())) {
                 System.out.println("NOMBRE INGRESADO -> " + name);
-                ((View)SwingUtilities.getWindowAncestor(PanelLoginName.this)).getClient().sendName(name);
+                String comando = "NAME ";
+                ((View) SwingUtilities.getWindowAncestor(PanelLoginName.this)).sendCommand(comando + name);// enviar                                                                          // nombre
                 showPanelDifficulty();
             }
-            
+
         });
     }
 

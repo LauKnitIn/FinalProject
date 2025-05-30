@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+import co.edu.uptc.view.DefeatDialog;
+import co.edu.uptc.view.WinDialog;
+
 public class Client {
 
     final String SERVIDOR = "localhost";
@@ -13,6 +16,16 @@ public class Client {
     BufferedReader input;
     PrintWriter output;
     private static int maxIntentos = 10;
+
+    public interface IntentosListener {
+        void onIntentosRestantes(int intentosRestantes);
+    }
+
+    private IntentosListener listener;
+
+    public void setIntentosListener(IntentosListener listener) {
+        this.listener = listener;
+    }
 
     public static String leerRespuesta(BufferedReader input) {
         String response = "";
@@ -41,19 +54,47 @@ public class Client {
         return maxIntentos;
     }
 
+    public boolean isFull() {
+        boolean isFull = false;
+        output.println("FULL ");
+        String value = leerRespuesta(input);
+        if (value.equals("FULL")) {
+            isFull = true;
+        }
+        return isFull;
+    }
+
+    public boolean isEmpty() {
+        boolean isEmpty = false;
+        output.println("FULL ");
+        String value = leerRespuesta(input);
+        if (value.equals("EMPTY")) {
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
+
+    public boolean isAvailable() {
+        boolean isAvailable = false;
+        output.println("FULL ");
+        String value = leerRespuesta(input);
+        if (value.equals("DISPO")) {
+            isAvailable = true;
+        }
+        return isAvailable;
+    }
+
     public void createConection() {
         try {
             this.socket = new Socket(SERVIDOR, PUERTO);
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
-            System.out
-                    .println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO + " " + socket.isConnected());
+            System.out.println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO + " " + socket.isConnected());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void sendName(String name) {
@@ -64,38 +105,25 @@ public class Client {
     }
 
     public void sendGameData(String difficulty, boolean isMultiplayer, String word1, String word2) {
-        String mode = "";
-        String command = "START ";
+        String mode = isMultiplayer ? "2" : "1";
+        String command = "START " + mode + " " + difficulty;
         if (isMultiplayer) {
-            mode = "2";
-        } else {
-            mode = "1";
+            command += " " + word1 + " " + word2;
         }
-        String fullCommand = command + mode + " " + difficulty;
-        if (mode.equals("2")) {
-            fullCommand += " " + word1 + " " + word2;
-        }
-        output.println(fullCommand);
+        output.println(command);
         leerRespuesta(input);
     }
 
     public void sendGameData(String difficulty, boolean isMultiplayer) {
-        String mode = "";
-        String command = "START ";
-        if (isMultiplayer) {
-            mode = "2";
-        } else {
-            mode = "1";
-        }
-        String fullCommand = command + mode + " " + difficulty;
-        output.println(fullCommand);
+        String mode = isMultiplayer ? "2" : "1";
+        String command = "START " + mode + " " + difficulty;
+        output.println(command);
         leerRespuesta(input);
     }
 
     public String makeGuess(String letter) {
-        String command = "GUESS ";
-        String fullCommand = command + letter.toUpperCase();
-        output.println(fullCommand);
+        String command = "GUESS " + letter.toUpperCase();
+        output.println(command);
 
         String responseLine;
         String progress = "";
@@ -111,15 +139,14 @@ public class Client {
                         intentosRestantes = -1;
                     }
                 } else if (responseLine.startsWith("Juego terminado")) {
-                    // Aquí puedes mostrar el mensaje en la GUI
                     final String respCopy = responseLine;
                     javax.swing.SwingUtilities.invokeLater(() -> {
                         if (respCopy.contains("null")) {
-                            javax.swing.JOptionPane.showMessageDialog(null, "¡Has perdido!", "Juego terminado",
-                                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                            DefeatDialog defeatDialog = new DefeatDialog();
+                            defeatDialog.setVisible(true);
                         } else {
-                            javax.swing.JOptionPane.showMessageDialog(null, "¡Felicidades, ganaste!", "Juego terminado",
-                                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                            WinDialog winDialog = new WinDialog();
+                            winDialog.setVisible(true);
                         }
                     });
                 } else {
@@ -135,27 +162,17 @@ public class Client {
         return progress;
     }
 
-    public interface IntentosListener {
-        void onIntentosRestantes(int intentosRestantes);
-    }
-
-    private IntentosListener listener;
-
-    public void setIntentosListener(IntentosListener listener) {
-        this.listener = listener;
-    }
-
     public String getPlayerName() {
         System.out.println("IN NAME METHOD");
-        String name = "";
-        name += leerRespuesta(input);
+        String command = "GET ";
+        String fullCommand = command + "NAME";
+        output.println(fullCommand);
+        String name = leerRespuesta(input);
         return name;
     }
 
     public void startGame() {
-        // Bucle principal del juego
-        while (true) { // Manejar lo que se quiere hacer por comandos para que la comunicación sea más
-                       // facil
+        while (true) {
             System.out.println("\n--- Opciones ---");
             System.out.println("1. Adivinar letra");
             System.out.println("2. Ver progreso");
@@ -178,33 +195,27 @@ public class Client {
                 break;
             } else {
                 System.out.println("Opción inválida");
-                continue;
             }
-
         }
-
     }
 
     public static void main(String[] args) {
-
         final String SERVIDOR = "localhost";
         final int PUERTO = 12345;
         Scanner scanner = new Scanner(System.in);
 
         try (
-                Socket socket = new Socket(SERVIDOR, PUERTO);
-                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter output = new PrintWriter(socket.getOutputStream(), true);) {
-            System.out
-                    .println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO + " " + socket.isConnected());
+            Socket socket = new Socket(SERVIDOR, PUERTO);
+            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        ) {
+            System.out.println("Conectado al servidor " + SERVIDOR + " en puerto " + PUERTO + " " + socket.isConnected());
 
-            // Pedir nombre de jugador a la interfaz
             System.out.print("Ingresa tu nombre: ");
             String playerName = scanner.nextLine();
             output.println("NAME " + playerName);
             leerRespuesta(input);
 
-            // Pedir el modo de juego que se eligio en la interfaz
             System.out.print("Modo de juego (1 = SINGLE, 2 = MULTI): ");
             String mode = scanner.nextLine();
             System.out.print("Dificultad (1, 2, 3, 4): ");
@@ -220,9 +231,7 @@ public class Client {
             output.println(fullCommand);
             leerRespuesta(input);
 
-            // Bucle principal del juego
-            while (true) { // Manejar lo que se quiere hacer por comandos para que la comunicación sea más
-                           // facil
+            while (true) {
                 System.out.println("\n--- Opciones ---");
                 System.out.println("1. Adivinar letra");
                 System.out.println("2. Ver progreso");
@@ -245,14 +254,11 @@ public class Client {
                     break;
                 } else {
                     System.out.println("Opción inválida");
-                    continue;
                 }
-
             }
 
         } catch (IOException e) {
             System.err.println("Error de conexión: " + e.getMessage());
         }
-
     }
 }

@@ -1,5 +1,8 @@
 package co.edu.uptc.view;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,7 +16,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import co.edu.uptc.view.constants.ColorPalette;
 import co.edu.uptc.view.constants.FontPalette;
@@ -68,6 +73,12 @@ public class PanelStart extends JPanel {
         });
         
         btnInformacion = addButton(informacionIcon, 970, 635, e -> showPanelGameRules());
+        btnInformacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playSound("GUI-CLIENT_SIDE\\src\\co\\edu\\uptc\\resources\\SonidoHoja.wav");
+            }
+        });
     }
 
     private RoundedButton addButton(String text, int x, int y, ActionListener actionListener) {
@@ -163,6 +174,24 @@ public class PanelStart extends JPanel {
             int xPosition = panelWidth - (originalPanelWidth - originalX);
             int yPosition = panelHeight - (originalPanelHeight - originalY);
             btnInformacion.setBounds(xPosition, yPosition, btnWidth, btnHeight);
+        }
+    }
+
+    public static void playSound(String nombreArchivo) {
+        try {
+            File sound = new File(nombreArchivo);
+            if (!sound.exists()) {
+                System.out.println("Archivo no encontrado: " + sound.getAbsolutePath());
+                return;
+            }
+
+            AudioInputStream audio = AudioSystem.getAudioInputStream(sound);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+        } catch (Exception e) {
+            System.out.println("No se pudo reproducir el sonido");
+            e.printStackTrace();
         }
     }
 

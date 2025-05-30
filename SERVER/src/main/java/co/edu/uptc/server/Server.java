@@ -25,7 +25,7 @@ public class Server {
                 ClientManager clientManager = new ClientManager(clientSocket, nClient, this);
                 connectedClients.add(clientManager);
 
-                clientManager.start();  // Inicia hilo para atender al cliente
+                clientManager.start();  
             }
 
         } catch (Exception e) {
